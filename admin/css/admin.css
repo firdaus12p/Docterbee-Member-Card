@@ -1,0 +1,2228 @@
+/* ===== CSS untuk Admin Dashboard - Sistem Kartu Anggota ===== */
+
+/* Reset dan base styles untuk admin */
+.admin-dashboard,
+.admin-login-page {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  /* Mengubah background menjadi warna merah sesuai tambahan.md */
+  background: linear-gradient(135deg, #dc3545 0%, #b71c1c 100%);
+  min-height: 100vh;
+}
+
+/* ===== ADMIN LOGIN PAGE ===== */
+.admin-login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-box {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease;
+}
+
+.login-header {
+  background: white; /* Ubah background dari hijau ke putih */
+  color: #dc3545; /* Ubah warna teks ke merah */
+  padding: 30px;
+  text-align: center;
+  border-bottom: 3px solid #dc3545; /* Tambahkan pembatas merah di bawah */
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.1); /* Tambahkan bayangan halus */
+}
+
+.login-header .logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.login-header .logo i {
+  font-size: 30px;
+  color: #dc3545; /* Pastikan icon juga merah */
+}
+
+.login-header h1 {
+  font-size: 24px;
+  margin: 0;
+  color: #dc3545; /* Pastikan h1 berwarna merah */
+}
+
+.login-header h2 {
+  font-size: 20px;
+  margin: 15px 0 5px 0;
+  font-weight: 600;
+  color: #dc3545; /* Ubah "Admin Dashboard" ke warna merah */
+}
+
+.login-header p {
+  font-size: 14px;
+  opacity: 0.8; /* Sedikit kurangi opacity untuk kontras yang baik */
+  margin: 0;
+  color: #dc3545; /* Ubah "Masuk untuk mengelola data pelanggan" ke warna merah */
+}
+
+.login-form {
+  padding: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper i {
+  position: absolute;
+  left: 15px;
+  color: #666;
+  z-index: 1;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 12px 15px 12px 45px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.input-wrapper input:focus {
+  border-color: #4caf50;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.toggle-password {
+  position: absolute;
+  right: 15px;
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.btn-login {
+  width: 100%;
+  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+}
+
+.login-footer {
+  background: #f8f9fa;
+  padding: 15px 30px;
+  text-align: center;
+  color: #666;
+  font-size: 12px;
+}
+
+/* Styling untuk tombol kembali */
+.back-to-home {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.btn-back {
+  display: inline-block;
+  background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 0 auto;
+}
+
+.btn-back:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+  text-decoration: none;
+  color: white;
+}
+
+.btn-back:active {
+  transform: translateY(0);
+}
+
+/* ===== ADMIN DASHBOARD ===== */
+.admin-dashboard {
+  background: #f5f6fa;
+  min-height: 100vh;
+}
+
+.admin-header {
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header-content .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #4caf50;
+}
+
+.header-content .logo i {
+  font-size: 28px;
+}
+
+.header-content .logo h1 {
+  font-size: 22px;
+  margin: 0;
+  font-weight: 600;
+  color: #dc3545; /* Warna merah untuk Admin Dashboard */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 1px 1px 2px rgba(0, 0, 0, 0.5); /* Bayangan untuk efek menonjol */
+}
+
+.admin-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.admin-name {
+  color: #333;
+  font-size: 14px;
+}
+
+.btn-logout {
+  background: #dc3545;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+  background: #c82333;
+  transform: translateY(-1px);
+}
+
+.admin-main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+/* ===== STATISTICS SECTION ===== */
+.stats-section {
+  margin-bottom: 40px;
+}
+
+.stats-section h2 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+/* PERBAIKAN: Pastikan FontAwesome dimuat dengan benar */
+.stat-card .fas,
+.stat-card .far,
+.stat-card .fab {
+  font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro",
+    "Font Awesome 6 Brands", "FontAwesome" !important;
+  font-weight: 900 !important;
+  font-style: normal !important;
+  font-variant: normal !important;
+  text-rendering: auto !important;
+  line-height: 1 !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* TAMBAHAN: Pastikan icon WhatsApp dan semua icon tampil dengan benar */
+.fab.fa-whatsapp,
+.fas.fa-users,
+.fas.fa-user-plus,
+.fas.fa-shopping-cart,
+.fas.fa-crown,
+.fas.fa-chart-bar,
+.fas.fa-search,
+.fas.fa-id-card,
+.fas.fa-sync-alt,
+.fas.fa-user-edit,
+.fas.fa-trash,
+.fas.fa-file-pdf,
+.fas.fa-sign-out-alt,
+.fas.fa-info-circle,
+.fas.fa-question-circle,
+.fas.fa-check-circle,
+.fas.fa-times,
+.fas.fa-check,
+.fas.fa-plus,
+.fas.fa-minus,
+.fas.fa-save,
+.fas.fa-spinner {
+  font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro",
+    "Font Awesome 6 Brands", "FontAwesome" !important;
+  font-weight: 900 !important;
+  font-style: normal !important;
+  display: inline-block !important;
+  text-rendering: auto !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* TAMBAHAN: Efek gradien halus untuk mobile */
+.stat-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(76, 175, 80, 0.3),
+    transparent
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.stat-card:hover::before {
+  opacity: 1;
+}
+
+.stat-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+/* PERBAIKAN: Pastikan icon FontAwesome muncul di atas pseudo-elements */
+.stat-icon i {
+  position: relative;
+  z-index: 2;
+  font-size: inherit;
+  color: inherit;
+  display: block;
+}
+
+/* FALLBACK: Jika FontAwesome tidak dimuat, gunakan text fallback */
+.stat-icon i::before {
+  font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro", "FontAwesome",
+    sans-serif !important;
+  font-weight: 900 !important;
+  font-style: normal !important;
+  display: inline-block !important;
+  text-rendering: auto !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* FALLBACK: Icon alternatif jika FontAwesome tidak muncul */
+.total-members .stat-icon::after {
+  content: "👥" !important;
+  font-size: 24px;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.today-registrations .stat-icon::after {
+  content: "👤" !important;
+  font-size: 24px;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.total-transactions .stat-icon::after {
+  content: "🛒" !important;
+  font-size: 24px;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.top-customer .stat-icon::after {
+  content: "👑" !important;
+  font-size: 24px;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Jika FontAwesome ada, sembunyikan fallback */
+.stat-icon i.fas:not(:empty) ~ *::after,
+.stat-icon i.far:not(:empty) ~ *::after,
+.stat-icon i:not([class*="fa"]):empty + *::after {
+  display: none !important;
+}
+
+/* TAMBAHAN: Efek shine pada icon - dipindah ke bawah agar tidak konflik */
+.stat-icon::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+  z-index: 0; /* PERBAIKAN: Pastikan efek shine paling bawah */
+}
+
+.stat-card:hover .stat-icon::before {
+  transform: translateX(100%);
+}
+
+.total-members .stat-icon {
+  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+}
+
+.today-registrations .stat-icon {
+  background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+}
+
+.total-transactions .stat-icon {
+  background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+}
+
+.top-customer .stat-icon {
+  background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
+}
+
+/* PERBAIKAN: Pastikan icon spesifik muncul dengan benar */
+.total-members .stat-icon .fa-users,
+.today-registrations .stat-icon .fa-user-plus,
+.total-transactions .stat-icon .fa-shopping-cart,
+.top-customer .stat-icon .fa-crown {
+  display: inline-block !important;
+  font-size: inherit !important;
+  color: white !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+.stat-info h3 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 5px 0;
+  color: #333;
+  background: linear-gradient(135deg, #333 0%, #555 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stat-info p {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* ===== SEARCH SECTION ===== */
+.controls-section {
+  margin-bottom: 40px;
+}
+
+.search-container {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.search-container h3 {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.search-box {
+  position: relative;
+  max-width: 400px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 12px 40px 12px 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+  border-color: #4caf50;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.btn-clear {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #dc3545;
+  color: white;
+  border: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  font-size: 11px;
+  cursor: pointer;
+  display: none;
+}
+
+.search-hint {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #666;
+}
+
+/* ===== MEMBERS SECTION ===== */
+.members-section {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.section-header {
+  padding: 25px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-header h3 {
+  color: #333;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.section-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-refresh,
+.btn-create-admin {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-refresh {
+  background: #17a2b8;
+  color: white;
+}
+
+.btn-create-admin {
+  background: #28a745;
+  color: white;
+}
+
+.btn-refresh:hover {
+  background: #138496;
+}
+
+.btn-create-admin:hover {
+  background: #218838;
+}
+
+.members-container {
+  padding: 25px;
+}
+
+.loading-members {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.loading-members i {
+  font-size: 24px;
+  margin-bottom: 10px;
+  animation: spin 1s linear infinite;
+}
+
+.no-members {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.no-members i {
+  font-size: 48px;
+  margin-bottom: 15px;
+  color: #ddd;
+}
+
+.no-members p {
+  font-size: 16px;
+  margin: 0;
+}
+
+/* ===== MEMBER CARDS ===== */
+.member-card {
+  background: #f8f9fa;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.member-card:hover {
+  border-color: #4caf50;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.member-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.member-basic-info h4 {
+  margin: 0 0 5px 0;
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.member-basic-info p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.member-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.badge-active-worker {
+  background: #4caf50;
+  color: white;
+}
+.badge-family-member {
+  background: #2196f3;
+  color: white;
+}
+.badge-healthy-smart-kids {
+  background: #ff9800;
+  color: white;
+}
+.badge-mums-baby {
+  background: #e91e63;
+  color: white;
+}
+.badge-new-couple {
+  background: #9c27b0;
+  color: white;
+}
+.badge-pregnant-preparation {
+  background: #673ab7;
+  color: white;
+}
+.badge-senja-ceria {
+  background: #ff5722;
+  color: white;
+}
+
+.member-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.member-detail-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.member-detail-item label {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 2px;
+  font-weight: 500;
+}
+
+.member-detail-item span {
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+
+.transaction-count-display {
+  background: #4caf50;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+/* ===== MODALS PERBAIKAN ===== */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+  overflow: hidden; /* Cegah scroll pada backdrop */
+}
+
+.modal.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 450px;
+  max-height: 80vh;
+  overflow-y: auto;
+  animation: slideInUp 0.3s ease;
+  position: relative;
+  margin: auto;
+}
+
+.modal-large {
+  max-width: 550px;
+  width: 95%;
+}
+
+.modal-header {
+  padding: 20px 25px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.close-modal {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-modal:hover {
+  color: #dc3545;
+}
+
+.modal-body {
+  padding: 25px;
+}
+
+/* ===== MEMBER MODAL CONTENT ===== */
+.member-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-item label {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.info-item span {
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+  padding: 8px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.transaction-section {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+}
+
+.transaction-section h4 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.transaction-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.current-transactions {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.current-transactions label {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.transaction-count {
+  background: #4caf50;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 16px;
+  text-align: center;
+  min-width: 50px;
+}
+
+.transaction-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-add-transaction,
+.btn-subtract-transaction {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-add-transaction {
+  background: #28a745;
+  color: white;
+}
+
+.btn-subtract-transaction {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-add-transaction:hover {
+  background: #218838;
+}
+
+.btn-subtract-transaction:hover {
+  background: #c82333;
+}
+
+.member-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-send-pdf {
+  background: #25d366; /* UBAH: Warna WhatsApp hijau untuk tombol link group */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  flex: 1;
+  min-width: 150px;
+}
+
+/* TAMBAHAN: Pastikan icon WhatsApp dalam tombol tampil dengan benar */
+.btn-send-pdf .fab.fa-whatsapp {
+  margin-right: 8px;
+  font-size: 16px;
+  color: white !important;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.btn-delete-member {
+  background: #dc3545;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  flex: 1;
+  min-width: 150px;
+}
+
+.btn-send-pdf:hover {
+  background: #128c7e; /* UBAH: Hover dengan warna WhatsApp yang lebih gelap */
+}
+
+.btn-delete-member:hover {
+  background: #c82333;
+}
+
+/* ===== FORM STYLES ===== */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #4caf50;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.btn-save,
+.btn-confirm,
+.btn-cancel {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-save,
+.btn-confirm {
+  background: #28a745;
+  color: white;
+}
+
+.btn-cancel {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-save:hover,
+.btn-confirm:hover {
+  background: #218838;
+}
+
+.btn-cancel:hover {
+  background: #5a6268;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+/* ===== LOADING OVERLAY ===== */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.loading-overlay.show {
+  display: flex;
+}
+
+.loading-spinner {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.loading-spinner i {
+  font-size: 32px;
+  color: #4caf50;
+  margin-bottom: 15px;
+}
+
+.loading-spinner p {
+  margin: 0;
+  color: #333;
+  font-weight: 500;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* TAMBAHAN: Animasi pulse untuk statistik yang loading */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* TAMBAHAN: Animasi untuk card stats */
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* TAMBAHAN: Animasi stagger untuk stats cards di mobile */
+.stat-card {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.stat-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.stat-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.stat-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.stat-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+/* TAMBAHAN: Loading state untuk stats */
+.stat-card.loading {
+  animation: pulse 2s infinite ease-in-out;
+}
+
+.stat-card.loading .stat-info h3,
+.stat-card.loading .stat-info p {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  color: transparent;
+  border-radius: 4px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ===== PERBAIKAN WHITESPACE ANDROID ===== */
+html,
+body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden; /* Mencegah scroll horizontal */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.admin-dashboard {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Container utama tidak boleh melebihi viewport */
+.admin-header,
+.admin-main,
+.stats-section,
+.controls-section,
+.members-section {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Perbaikan untuk input dan button yang keluar dari container */
+input,
+button,
+select,
+textarea {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* ===== RESPONSIVE DESIGN ANDROID ===== */
+@media (max-width: 768px) {
+  /* Header mobile responsif */
+  .header-content {
+    padding: 12px 15px;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .header-content .logo h1 {
+    font-size: 18px;
+    color: #dc3545; /* Warna merah untuk mobile */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 1px 1px 2px rgba(0, 0, 0, 0.5); /* Bayangan untuk mobile */
+  }
+
+  .admin-info {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .admin-name {
+    font-size: 13px;
+  }
+
+  .btn-logout {
+    padding: 10px 20px;
+    font-size: 12px;
+    width: auto;
+    min-width: 120px;
+  }
+
+  /* Main container mobile */
+  .admin-main {
+    padding: 15px 10px;
+    gap: 20px;
+  }
+
+  /* Statistics mobile - PERBAIKAN TAMPILAN MENARIK */
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .stat-card {
+    padding: 18px 15px;
+    flex-direction: row; /* UBAH: Icon di kiri, teks di kanan */
+    align-items: center; /* UBAH: Sejajar secara vertikal */
+    gap: 15px; /* UBAH: Jarak antara icon dan teks */
+    text-align: left; /* UBAH: Teks rata kiri */
+    min-height: 80px; /* TAMBAH: Tinggi minimal konsisten */
+    border-radius: 15px; /* TAMBAH: Sudut lebih rounded */
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12); /* TAMBAH: Bayangan lebih dramatis */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* TAMBAH: Border halus */
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #f8f9fa 100%
+    ); /* TAMBAH: Gradien latar */
+  }
+
+  /* TAMBAHAN: Efek glow border pada hover untuk mobile */
+  .stat-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 15px;
+    padding: 2px;
+    background: linear-gradient(
+      135deg,
+      transparent,
+      rgba(76, 175, 80, 0.3),
+      transparent
+    );
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: xor;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .stat-card:active::after {
+    opacity: 1;
+  }
+
+  .stat-icon {
+    width: 50px; /* UBAH: Ukuran icon ideal untuk mobile */
+    height: 50px;
+    font-size: 22px; /* UBAH: Icon tidak terlalu besar */
+    flex-shrink: 0; /* TAMBAH: Icon tidak mengecil */
+    border-radius: 12px; /* TAMBAH: Sudut icon rounded */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* TAMBAH: Bayangan icon */
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* PERBAIKAN: Pastikan icon FontAwesome muncul di mobile */
+  .stat-icon i {
+    position: relative;
+    z-index: 3;
+    font-size: inherit;
+    color: inherit;
+    display: block;
+  }
+
+  /* TAMBAHAN: Efek ripple pada icon saat di-tap di mobile */
+  .stat-icon::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease;
+    z-index: 1; /* PERBAIKAN: Pastikan ripple di bawah icon */
+  }
+
+  .stat-card:active .stat-icon::before {
+    width: 100px;
+    height: 100px;
+  }
+
+  .stat-info {
+    flex: 1; /* TAMBAH: Ambil sisa ruang */
+    min-width: 0; /* TAMBAH: Izinkan teks wrap jika perlu */
+  }
+
+  .stat-info h3 {
+    font-size: 24px; /* UBAH: Angka tetap besar tapi proporsional */
+    margin: 0 0 4px 0; /* UBAH: Margin lebih rapat */
+    font-weight: 700;
+    line-height: 1.1; /* TAMBAH: Line height ketat */
+    background: linear-gradient(135deg, #333 0%, #555 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .stat-info p {
+    font-size: 12px; /* UBAH: Teks keterangan di bawah angka */
+    line-height: 1.2;
+    margin: 0;
+    opacity: 0.9; /* TAMBAH: Sedikit transparan untuk hierarki visual */
+    font-weight: 500; /* TAMBAH: Sedikit tebal */
+  }
+
+  /* Search section mobile */
+  .search-container {
+    padding: 15px;
+    border-radius: 8px;
+  }
+
+  .search-container h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .search-box {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .search-box input {
+    font-size: 16px; /* Mencegah zoom di iOS */
+    padding: 12px 40px 12px 12px;
+    width: 100%;
+  }
+
+  .search-hint {
+    font-size: 11px;
+    margin-top: 8px;
+  }
+
+  /* Section header mobile */
+  .section-header {
+    padding: 15px;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .section-header h3 {
+    font-size: 16px;
+  }
+
+  .section-actions {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .btn-refresh,
+  .btn-create-admin {
+    width: 100%;
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  /* Members container mobile */
+  .members-container {
+    padding: 15px;
+  }
+
+  .member-card {
+    padding: 15px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+  }
+
+  .member-card-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .member-basic-info h4 {
+    font-size: 16px;
+    line-height: 1.3;
+  }
+
+  .member-basic-info p {
+    font-size: 13px;
+  }
+
+  .member-details-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .member-detail-item label {
+    font-size: 11px;
+  }
+
+  .member-detail-item span {
+    font-size: 13px;
+    padding: 6px 0;
+  }
+
+  /* Modal responsif mobile */
+  .modal {
+    padding: 10px;
+  }
+
+  .modal-content {
+    width: 95%;
+    max-width: calc(100vw - 20px);
+    max-height: 85vh;
+    margin: 0 auto;
+    border-radius: 10px;
+  }
+
+  .modal-large {
+    width: 98%;
+    max-width: calc(100vw - 10px);
+  }
+
+  .modal-header {
+    padding: 15px;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .modal-header h3 {
+    font-size: 16px;
+    flex: 1;
+  }
+
+  .close-modal {
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .modal-body {
+    padding: 15px;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+
+  /* Member info grid mobile */
+  .member-info-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .info-item span {
+    font-size: 13px;
+    padding: 6px 0;
+  }
+
+  /* Transaction controls mobile */
+  .transaction-section {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  .transaction-section h4 {
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+
+  .transaction-controls {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .current-transactions {
+    text-align: center;
+  }
+
+  .current-transactions label {
+    font-size: 13px;
+  }
+
+  .transaction-count {
+    font-size: 18px;
+    padding: 10px 20px;
+    margin-top: 5px;
+  }
+
+  .transaction-actions {
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .btn-add-transaction,
+  .btn-subtract-transaction {
+    flex: 1;
+    padding: 10px;
+    font-size: 13px;
+    max-width: 120px;
+  }
+
+  /* Member actions mobile */
+  .member-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-send-pdf,
+  .btn-delete-member {
+    width: 100%;
+    padding: 12px;
+    font-size: 13px;
+    min-width: auto;
+  }
+
+  /* Form mobile */
+  .form-group input,
+  .form-group select {
+    font-size: 16px; /* Mencegah zoom di iOS */
+    padding: 12px;
+  }
+
+  .confirm-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-save,
+  .btn-confirm,
+  .btn-cancel {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+
+/* ===== MOBILE PORTRAIT SANGAT KECIL ===== */
+@media (max-width: 480px) {
+  .header-content .logo h1 {
+    font-size: 16px;
+    color: #dc3545; /* Warna merah untuk mobile kecil */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 1px 1px 2px rgba(0, 0, 0, 0.5); /* Bayangan untuk mobile kecil */
+  }
+
+  .admin-main {
+    padding: 10px 8px;
+  }
+
+  /* Stats grid 1 kolom untuk layar sangat kecil - PERBAIKAN TAMPILAN MENARIK */
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .stat-card {
+    padding: 20px 15px; /* UBAH: Padding lebih besar untuk single column */
+    flex-direction: row; /* PERTAHANKAN: Icon di kiri, teks di kanan */
+    align-items: center;
+    gap: 18px; /* UBAH: Gap lebih besar untuk single column */
+    text-align: left;
+    min-height: 85px; /* UBAH: Tinggi sedikit lebih besar */
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); /* UBAH: Bayangan lebih dramatis */
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  }
+
+  /* TAMBAHAN: Efek active state untuk single column */
+  .stat-card:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+
+  .stat-icon {
+    width: 55px; /* UBAH: Icon sedikit lebih besar untuk single column */
+    height: 55px;
+    font-size: 24px; /* UBAH: Icon font sedikit lebih besar */
+    flex-shrink: 0;
+    border-radius: 14px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* PERBAIKAN: Pastikan icon FontAwesome muncul di mobile extra small */
+  .stat-icon i {
+    position: relative;
+    z-index: 3;
+    font-size: inherit;
+    color: inherit;
+    display: block;
+  }
+
+  .stat-info h3 {
+    font-size: 26px; /* UBAH: Angka lebih besar untuk single column */
+    margin: 0 0 5px 0;
+    font-weight: 700;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #333 0%, #555 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .stat-info p {
+    font-size: 13px; /* UBAH: Teks keterangan sedikit lebih besar */
+    line-height: 1.3;
+    margin: 0;
+    opacity: 0.9;
+    font-weight: 500;
+  }
+
+  /* Search dan container */
+  .search-container,
+  .members-container {
+    padding: 12px;
+  }
+
+  .section-header {
+    padding: 12px;
+  }
+
+  .member-card {
+    padding: 12px;
+  }
+
+  /* Modal sangat kecil */
+  .modal-content {
+    width: 98%;
+    max-width: calc(100vw - 10px);
+    margin: 5px auto;
+    border-radius: 8px;
+  }
+
+  .modal-large {
+    width: 98%;
+  }
+
+  .modal-header,
+  .modal-body {
+    padding: 12px;
+  }
+
+  .modal-header h3 {
+    font-size: 15px;
+  }
+
+  .close-modal {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+  }
+
+  .transaction-section {
+    padding: 12px;
+  }
+
+  .transaction-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn-add-transaction,
+  .btn-subtract-transaction {
+    max-width: none;
+  }
+
+  /* Alert modal kecil */
+  .modal-content {
+    min-height: auto;
+  }
+
+  .modal-body p {
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 0;
+  }
+}
+
+/* ===== LANDSCAPE TABLET ===== */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .member-details-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .member-info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===== TOUCH FRIENDLY UNTUK ANDROID ===== */
+@media (hover: none) and (pointer: coarse) {
+  /* Tombol lebih besar untuk touch */
+  button {
+    min-height: 44px; /* Standar Android */
+    min-width: 44px;
+    touch-action: manipulation;
+  }
+
+  .btn-clear {
+    min-height: 30px;
+    min-width: 30px;
+  }
+
+  /* Input touch friendly */
+  input,
+  select,
+  textarea {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+
+  /* PERBAIKAN: Touch feedback untuk stat cards - hapus hover, tambah active */
+  .member-card:hover,
+  .stat-card:hover,
+  button:hover {
+    transform: none;
+    box-shadow: inherit;
+  }
+
+  /* TAMBAHAN: Touch feedback yang lebih responsif untuk stats */
+  .stat-card {
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .stat-card:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+  }
+
+  /* TAMBAHAN: Focus states yang lebih jelas untuk accessibility */
+  button:focus,
+  input:focus,
+  select:focus {
+    outline: 3px solid #4caf50;
+    outline-offset: 2px;
+  }
+
+  /* TAMBAHAN: Feedback visual saat tap pada icon stats */
+  .stat-icon:active {
+    transform: scale(0.9);
+    transition: transform 0.1s ease;
+  }
+
+  /* Member card touch - optimized */
+  .member-card {
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(76, 175, 80, 0.1);
+  }
+
+  .member-card:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Login page mobile */
+  .admin-login-page {
+    padding: 10px;
+  }
+
+  .login-container {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .login-box {
+    margin: 0;
+    border-radius: 10px;
+  }
+
+  .login-form,
+  .login-header {
+    padding: 15px;
+  }
+
+  /* Responsive styling untuk tombol kembali */
+  .btn-back {
+    font-size: 12px;
+    padding: 8px 16px;
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .back-to-home {
+    margin-top: 12px;
+    padding-top: 12px;
+  }
+
+  .login-header h1 {
+    font-size: 20px;
+  }
+
+  .login-header h2 {
+    font-size: 18px;
+  }
+
+  .login-header p {
+    font-size: 13px;
+  }
+
+  /* Modal pada login page */
+  .modal-body,
+  .modal-header {
+    padding: 15px;
+  }
+
+  .members-container,
+  .search-container {
+    padding: 15px;
+  }
+
+  .admin-main {
+    padding: 10px;
+  }
+}
+
+/* ===== UTILITY CLASSES ===== */
+.text-center {
+  text-align: center;
+}
+.text-success {
+  color: #28a745;
+}
+.text-danger {
+  color: #dc3545;
+}
+.text-info {
+  color: #17a2b8;
+}
+.text-warning {
+  color: #ffc107;
+}
+
+.hide {
+  display: none !important;
+}
+.show {
+  display: block !important;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
+.mb-1 {
+  margin-bottom: 0.5rem;
+}
+.mb-2 {
+  margin-bottom: 1rem;
+}
+.mb-3 {
+  margin-bottom: 1.5rem;
+}
+
+.mt-0 {
+  margin-top: 0;
+}
+.mt-1 {
+  margin-top: 0.5rem;
+}
+.mt-2 {
+  margin-top: 1rem;
+}
+.mt-3 {
+  margin-top: 1.5rem;
+}
+
+/* ===== ICON FIXES UNTUK SEMUA TOMBOL ===== */
+/* Memastikan semua icon FontAwesome tampil dengan benar */
+.btn i,
+.btn-logout i,
+.btn-refresh i,
+.btn-add-transaction i,
+.btn-subtract-transaction i,
+.btn-delete-member i,
+.btn-send-pdf i,
+.btn-create-admin i {
+  font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+  font-weight: 900 !important;
+  display: inline-block !important;
+  width: auto !important;
+  height: auto !important;
+  margin-right: 8px !important;
+  vertical-align: middle !important;
+  font-style: normal !important;
+  position: relative !important;
+  z-index: 1 !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* Icon WhatsApp khusus untuk brand icons */
+.btn-send-pdf .fab.fa-whatsapp {
+  font-family: "Font Awesome 6 Brands" !important;
+  font-weight: 400 !important;
+  color: inherit !important;
+  margin-right: 8px !important;
+}
+
+/* Warna khusus untuk tombol WhatsApp */
+.btn-send-pdf {
+  background: #25d366 !important;
+  color: white !important;
+}
+
+.btn-send-pdf:hover {
+  background: #128c7e !important;
+}
+
+/* Pastikan tombol keluar icon tampil */
+.btn-logout .fas.fa-sign-out-alt:before {
+  content: "\f2f5" !important;
+}
+
+/* Pastikan tombol refresh icon tampil */
+.btn-refresh .fas.fa-sync-alt:before {
+  content: "\f2f1" !important;
+}
+
+/* Pastikan tombol tambah pembelian icon tampil */
+.btn-add-transaction .fas.fa-plus:before {
+  content: "\f067" !important;
+}
+
+/* Pastikan tombol kurangi pembelian icon tampil */
+.btn-subtract-transaction .fas.fa-minus:before {
+  content: "\f068" !important;
+}
+
+/* Pastikan tombol hapus member icon tampil */
+.btn-delete-member .fas.fa-trash:before {
+  content: "\f1f8" !important;
+}
+
+/* Pastikan icon WhatsApp tampil */
+.btn-send-pdf .fab.fa-whatsapp:before {
+  content: "\f232" !important;
+}
+
+/* Pastikan icon buat admin tampil */
+.btn-create-admin .fas.fa-user-plus:before {
+  content: "\f234" !important;
+}
+
+/* Spacing dan alignment untuk semua tombol dengan icon */
+.btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+/* Memastikan icon tidak berubah ukuran */
+.btn i {
+  flex-shrink: 0 !important;
+  font-size: 1em !important;
+}
+
+/* Fix untuk tombol dalam modal actions */
+.member-actions .btn,
+.transaction-actions .btn,
+.section-actions .btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+}
+
+/* ===== PERBAIKAN ICON FONTAWESOME KOMPREHENSIF ===== */
+/* Force loading FontAwesome dengan fallback */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css");
+
+/* Pastikan semua icon FontAwesome dimuat dengan benar */
+.fas,
+.fab,
+.far,
+.fal,
+.fad {
+  font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro",
+    "Font Awesome 6 Brands", "FontAwesome" !important;
+  font-weight: 900 !important;
+  font-style: normal !important;
+  display: inline-block !important;
+  text-rendering: auto !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* Khusus untuk brand icons */
+.fab {
+  font-family: "Font Awesome 6 Brands", "FontAwesome" !important;
+  font-weight: 400 !important;
+}
+
+/* Force semua tombol icon tampil */
+.btn .fas,
+.btn .fab,
+.btn .far,
+.btn-logout .fas,
+.btn-refresh .fas,
+.btn-create-admin .fas,
+.btn-add-transaction .fas,
+.btn-subtract-transaction .fas,
+.btn-delete-member .fas,
+.btn-send-pdf .fab {
+  font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", "FontAwesome" !important;
+  font-weight: 900 !important;
+  font-style: normal !important;
+  display: inline-block !important;
+  line-height: 1 !important;
+  text-rendering: auto !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  width: auto !important;
+  height: auto !important;
+  margin-right: 6px !important;
+  vertical-align: middle !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Khusus brand icons WhatsApp */
+.btn-send-pdf .fab.fa-whatsapp {
+  font-family: "Font Awesome 6 Brands", "FontAwesome" !important;
+  font-weight: 400 !important;
+}
+
+/* Force tampilan icon dengan Unicode fallback */
+.fa-sign-out-alt:before {
+  content: "\f2f5" !important;
+}
+.fa-sync-alt:before {
+  content: "\f2f1" !important;
+}
+.fa-user-plus:before {
+  content: "\f234" !important;
+}
+.fa-plus:before {
+  content: "\f067" !important;
+}
+.fa-minus:before {
+  content: "\f068" !important;
+}
+.fa-trash:before {
+  content: "\f1f8" !important;
+}
+.fa-whatsapp:before {
+  content: "\f232" !important;
+}
+
+/* Pastikan font dimuat sebelum render */
+.btn {
+  font-display: block !important;
+}
+
+/* Fallback jika FontAwesome gagal dimuat */
+@font-face {
+  font-family: "FontAwesome";
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2")
+      format("woff2"),
+    url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff")
+      format("woff");
+  font-weight: 900;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "FontAwesome";
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2")
+      format("woff2"),
+    url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff")
+      format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}

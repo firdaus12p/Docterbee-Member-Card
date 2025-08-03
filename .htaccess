@@ -1,0 +1,195 @@
+# .htaccess untuk hosting DocterBee Membership Card System
+# Website: memberdocterbee.site
+
+# Enable mod_rewrite
+RewriteEngine On
+
+# Force HTTPS redirect (untuk keamanan hosting)
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Security Headers untuk keamanan website
+<IfModule mod_headers.c>
+    # Prevent MIME type sniffing
+    Header always set X-Content-Type-Options nosniff
+    
+    # Enable XSS protection
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # Prevent clickjacking
+    Header always set X-Frame-Options DENY
+    
+    # Referrer policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Content Security Policy (disesuaikan untuk aplikasi)
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'"
+</IfModule>
+
+# Cache Control untuk optimasi performa
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # CSS files cache 1 year
+    ExpiresByType text/css "access plus 1 year"
+    
+    # JavaScript files cache 1 year  
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType text/javascript "access plus 1 year"
+    
+    # Image files cache 1 month
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/jpg "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    
+    # HTML files cache 1 hour
+    ExpiresByType text/html "access plus 1 hour"
+    
+    # Font files cache 1 year
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+</IfModule>
+
+# Gzip compression untuk optimasi bandwidth
+<IfModule mod_deflate.c>
+    # Compress HTML, CSS, JavaScript, Text, XML and fonts
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+    AddOutputFilterByType DEFLATE application/x-font
+    AddOutputFilterByType DEFLATE application/x-font-opentype
+    AddOutputFilterByType DEFLATE application/x-font-otf
+    AddOutputFilterByType DEFLATE application/x-font-truetype
+    AddOutputFilterByType DEFLATE application/x-font-ttf
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE font/opentype
+    AddOutputFilterByType DEFLATE font/otf
+    AddOutputFilterByType DEFLATE font/ttf
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE image/x-icon
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/xml
+</IfModule>
+
+# Protect config files dan file sensitif (keamanan tinggi)
+<Files "config.php">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+<Files "environment.php">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+<Files "*.sql">
+    Order Allow,Deny  
+    Deny from all
+</Files>
+
+<Files ".htaccess">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+<Files "*.md">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Protect sensitive directories
+<IfModule mod_rewrite.c>
+    # Block access to config directory
+    RewriteRule ^config/ - [F,L]
+    
+    # Block access to database directory
+    RewriteRule ^database/ - [F,L]
+    
+    # Block access to any .git files/folders
+    RewriteRule ^\.git - [F,L]
+</IfModule>
+
+# Error pages (opsional - buat custom error pages)
+# ErrorDocument 404 /404.html
+# ErrorDocument 500 /500.html
+
+# Disable directory browsing untuk keamanan
+Options -Indexes
+
+# Prevent access to backup files
+<FilesMatch "(\.(bak|config|dist|fla|inc|ini|log|psd|sh|sql|swp)|~)$">
+    Order allow,deny
+    Deny from all
+    Satisfy All
+</FilesMatch>
+
+# PHP settings untuk hosting
+<IfModule mod_php7.c>
+    # Set maximum execution time
+    php_value max_execution_time 300
+    
+    # Set maximum input time  
+    php_value max_input_time 300
+    
+    # Set memory limit
+    php_value memory_limit 256M
+    
+    # Set maximum file upload size
+    php_value upload_max_filesize 10M
+    php_value post_max_size 10M
+    
+    # Set maximum input variables
+    php_value max_input_vars 3000
+    
+    # Enable error reporting (disable di production)
+    php_value display_errors Off
+    php_value log_errors On
+    
+    # Set timezone
+    php_value date.timezone "Asia/Jakarta"
+</IfModule>
+
+# CORS settings untuk API (jika diperlukan)
+<IfModule mod_headers.c>
+    # Allow CORS for API endpoints
+    <FilesMatch "\.(php)$">
+        Header always set Access-Control-Allow-Origin "*"
+        Header always set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+        Header always set Access-Control-Allow-Headers "Content-Type, X-Requested-With"
+    </FilesMatch>
+</IfModule>
+
+# Redirect untuk API yang lebih bersih (opsional)
+<IfModule mod_rewrite.c>
+    # API routing
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^api/([^/]+)/?$ api/$1.php [L,QSA]
+</IfModule>
+
+# Browser caching dengan ETag
+<IfModule mod_headers.c>
+    # Remove ETag headers  
+    Header unset ETag
+</IfModule>
+
+FileETag None
+
+# Additional MIME types (jika diperlukan)
+<IfModule mod_mime.c>
+    AddType application/javascript .js
+    AddType text/css .css
+    AddType image/svg+xml .svg
+    AddType font/woff .woff
+    AddType font/woff2 .woff2
+</IfModule>

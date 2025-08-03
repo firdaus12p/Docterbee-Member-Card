@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Dashboard Admin - Sistem Kartu Anggota</title>
+    <!-- Menambahkan favicon sesuai tambahan.md -->
+    <link rel="icon" type="image/png" href="../Logo/favicon.png" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Preload FontAwesome untuk memastikan icon dimuat -->
+    <link
+      rel="preload"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <!-- Fallback FontAwesome jika CDN gagal -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v6.4.0/css/all.css"
+      crossorigin="anonymous"
+    />
+    <style>
+      /* Immediate icon fix untuk memastikan icon tampil */
+      .fas,
+      .fab {
+        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands",
+          "FontAwesome", sans-serif !important;
+        font-weight: 900 !important;
+        font-style: normal !important;
+        display: inline-block !important;
+        text-rendering: auto !important;
+        -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
+      }
+      .fab {
+        font-weight: 400 !important;
+      }
+
+      /* Force loading icon dengan timeout */
+      .btn i {
+        opacity: 1 !important;
+        visibility: visible !important;
+        font-size: 14px !important;
+      }
+    </style>
+  </head>
+  <body class="admin-dashboard">
+    <!-- Header -->
+    <header class="admin-header">
+      <div class="header-content">
+        <div class="logo">
+          <!-- Mengganti tulisan DocterBee dengan logo sesuai tambahan.md -->
+          <img
+            src="../Logo/logo_docterbee.png"
+            alt="Logo Admin"
+            class="logo-image"
+          />
+          <h1>Admin Dashboard</h1>
+        </div>
+        <div class="admin-info">
+          <span class="admin-name"
+            >Selamat datang, <strong id="adminName">Admin</strong></span
+          >
+          <button class="btn btn-logout" onclick="logout()">Keluar</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <!-- Statistics Cards - Section untuk menampilkan statistik member -->
+      <section class="stats-section">
+        <h2><i class="fas fa-chart-bar"></i> Statistik Pelanggan</h2>
+        <div class="stats-grid">
+          <div class="stat-card total-members">
+            <div class="stat-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-info">
+              <h3 id="totalMembers">0</h3>
+              <p>Total Pelanggan</p>
+            </div>
+          </div>
+
+          <div class="stat-card today-registrations">
+            <div class="stat-icon">
+              <i class="fas fa-user-plus"></i>
+            </div>
+            <div class="stat-info">
+              <h3 id="todayRegistrations">0</h3>
+              <p>Pendaftar Hari Ini</p>
+            </div>
+          </div>
+
+          <div class="stat-card total-transactions">
+            <div class="stat-icon">
+              <i class="fas fa-shopping-cart"></i>
+            </div>
+            <div class="stat-info">
+              <h3 id="totalTransactions">0</h3>
+              <p>Total Transaksi</p>
+            </div>
+          </div>
+
+          <div class="stat-card top-customer">
+            <div class="stat-icon">
+              <i class="fas fa-crown"></i>
+            </div>
+            <div class="stat-info">
+              <h3 id="topCustomerName">-</h3>
+              <p>Pelanggan Terbaik</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Search and Controls -->
+      <section class="controls-section">
+        <div class="search-container">
+          <h3><i class="fas fa-search"></i> Cari Pelanggan</h3>
+          <div class="search-box">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Masukkan nomor WhatsApp pelanggan..."
+              maxlength="15"
+            />
+            <button
+              type="button"
+              id="clearSearch"
+              class="btn-clear"
+              onclick="clearSearch()"
+            >
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <p class="search-hint">
+            <i class="fas fa-info-circle"></i>
+            Ketik nomor WhatsApp untuk mencari pelanggan secara real-time
+          </p>
+        </div>
+      </section>
+
+      <!-- Members List -->
+      <section class="members-section">
+        <div class="section-header">
+          <h3><i class="fas fa-id-card"></i> Daftar Kartu Member</h3>
+          <div class="section-actions">
+            <button class="btn btn-refresh" onclick="loadMembers()">
+              Refresh
+            </button>
+            <button
+              class="btn btn-create-admin"
+              onclick="showCreateAdminModal()"
+            >
+              Buat Admin Baru
+            </button>
+          </div>
+        </div>
+
+        <div class="members-container" id="membersContainer">
+          <!-- Members akan dimuat di sini melalui JavaScript -->
+          <div class="loading-members">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Memuat data pelanggan...</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Member Card Modal -->
+    <div class="modal" id="memberModal">
+      <div class="modal-content modal-large">
+        <div class="modal-header">
+          <h3><i class="fas fa-user-edit"></i> Detail Member</h3>
+          <button class="close-modal" onclick="closeMemberModal()">
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="member-details">
+            <div class="member-info-grid">
+              <div class="info-item">
+                <label>Nama Lengkap:</label>
+                <span id="modalNama">-</span>
+              </div>
+              <div class="info-item">
+                <label>WhatsApp:</label>
+                <span id="modalWhatsapp">-</span>
+              </div>
+              <div class="info-item">
+                <label>Umur:</label>
+                <span id="modalUmur">-</span>
+              </div>
+              <div class="info-item">
+                <label>Kegiatan:</label>
+                <span id="modalKegiatan">-</span>
+              </div>
+              <div class="info-item">
+                <label>Jenis Kartu:</label>
+                <span id="modalJenisKartu">-</span>
+              </div>
+              <div class="info-item">
+                <label>Kode Unik:</label>
+                <span id="modalKodeUnik">-</span>
+              </div>
+              <div class="info-item">
+                <label>Tanggal Berlaku:</label>
+                <span id="modalTanggalBerlaku">-</span>
+              </div>
+              <div class="info-item">
+                <label>Tanggal Daftar:</label>
+                <span id="modalCreatedAt">-</span>
+              </div>
+            </div>
+
+            <div class="transaction-section">
+              <h4><i class="fas fa-shopping-cart"></i> Manajemen Transaksi</h4>
+              <div class="transaction-controls">
+                <div class="current-transactions">
+                  <label>Jumlah Pembelian Saat Ini:</label>
+                  <span class="transaction-count" id="modalJumlahPembelian"
+                    >0</span
+                  >
+                </div>
+                <div class="transaction-actions">
+                  <button
+                    class="btn btn-add-transaction"
+                    onclick="adjustTransaction(1)"
+                  >
+                    Tambah Pembelian
+                  </button>
+                  <button
+                    class="btn btn-subtract-transaction"
+                    onclick="adjustTransaction(-1)"
+                  >
+                    Kurangi Pembelian
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="member-actions">
+              <button class="btn btn-send-pdf" onclick="sendLinkToWhatsApp()">
+                Kirim Link Group
+              </button>
+              <button
+                class="btn btn-delete-member"
+                onclick="confirmDeleteMember()"
+              >
+                Hapus Member
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Create Admin Modal -->
+    <div class="modal" id="createAdminModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3><i class="fas fa-user-plus"></i> Buat Admin Baru</h3>
+          <button class="close-modal" onclick="closeCreateAdminModal()">
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="createAdminForm">
+            <div class="form-group">
+              <label for="newUsername">Username:</label>
+              <input type="text" id="newUsername" name="username" required />
+            </div>
+            <div class="form-group">
+              <label for="newPassword">Password:</label>
+              <input
+                type="password"
+                id="newPassword"
+                name="password"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="newEmail">Email:</label>
+              <input type="email" id="newEmail" name="email" />
+            </div>
+            <div class="form-group">
+              <label for="newRole">Role:</label>
+              <select id="newRole" name="role">
+                <option value="moderator">Moderator</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-save">
+                <i class="fas fa-save"></i> Buat Admin
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="confirmTitle">
+            <i class="fas fa-question-circle"></i> Konfirmasi
+          </h3>
+          <button class="close-modal" onclick="closeConfirmModal()">
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <p id="confirmMessage">Apakah Anda yakin?</p>
+          <div class="confirm-actions">
+            <button class="btn btn-cancel" onclick="closeConfirmModal()">
+              <i class="fas fa-times"></i> Batal
+            </button>
+            <button class="btn btn-confirm" id="confirmBtn">
+              <i class="fas fa-check"></i> Ya, Lanjutkan
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success/Alert Modal -->
+    <div class="modal" id="alertModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="alertTitle"><i class="fas fa-info-circle"></i> Informasi</h3>
+          <button class="close-modal" onclick="closeAlert()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p id="alertMessage">Pesan informasi</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="loading-spinner">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Memproses...</p>
+      </div>
+    </div>
+
+    <!-- Script untuk memastikan FontAwesome dimuat -->
+    <script>
+      // Fungsi untuk memastikan FontAwesome dimuat dengan benar
+      function ensureFontAwesome() {
+        // Cek apakah FontAwesome sudah dimuat
+        const testElement = document.createElement("i");
+        testElement.className = "fas fa-user";
+        testElement.style.position = "absolute";
+        testElement.style.left = "-9999px";
+        document.body.appendChild(testElement);
+
+        const computedStyle = window.getComputedStyle(testElement, ":before");
+        const isLoaded =
+          computedStyle.content !== "none" && computedStyle.content !== "";
+
+        document.body.removeChild(testElement);
+
+        if (!isLoaded) {
+          // Jika belum dimuat, force reload FontAwesome
+          const link = document.createElement("link");
+          link.rel = "stylesheet";
+          link.href = "https://use.fontawesome.com/releases/v6.4.0/css/all.css";
+          link.crossOrigin = "anonymous";
+          document.head.appendChild(link);
+
+          // Tambahkan CSS fallback
+          const style = document.createElement("style");
+          style.textContent = `
+            .fas, .fab { 
+              font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", "FontAwesome" !important;
+              font-weight: 900 !important;
+              font-style: normal !important;
+            }
+            .fab { font-weight: 400 !important; }
+          `;
+          document.head.appendChild(style);
+        }
+
+        // Force refresh semua icon
+        setTimeout(() => {
+          const icons = document.querySelectorAll(".fas, .fab, .far");
+          icons.forEach((icon) => {
+            icon.style.fontFamily =
+              '"Font Awesome 6 Free", "Font Awesome 6 Brands", "FontAwesome"';
+            icon.style.fontWeight = icon.classList.contains("fab")
+              ? "400"
+              : "900";
+            icon.style.fontStyle = "normal";
+          });
+        }, 100);
+      }
+
+      // Jalankan saat DOM ready
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", ensureFontAwesome);
+      } else {
+        ensureFontAwesome();
+      }
+
+      // Jalankan ulang setelah semua resource dimuat
+      window.addEventListener("load", ensureFontAwesome);
+    </script>
+
+    <script src="js/admin-dashboard.js"></script>
+    <script src="js/admin-auth.js"></script>
+  </body>
+</html>

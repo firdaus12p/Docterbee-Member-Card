@@ -1,0 +1,682 @@
+/* 
+===========================================
+🎯 PANDUAN KONTROL POSITIONING MOBILE/ANDROID
+===========================================
+
+UNTUK MENGUBAH POSISI TEXT PADA TAMPILAN HP/ANDROID:
+
+1. POSISI HORIZONTAL (Kiri-Kanan):
+   - Gunakan property "left" untuk alignment left/center (contoh: left: 25%)
+   - Gunakan property "right" untuk alignment right (contoh: right: 5%)
+   - Nilai dalam % relatif terhadap lebar kartu
+
+2. POSISI VERTIKAL (Atas-Bawah):
+   - Gunakan property "top" (contoh: top: 65%)
+   - Nilai dalam % relatif terhadap tinggi kartu
+
+3. UKURAN TEKS:
+   - member-name: font-size untuk nama (contoh: 0.8em)
+   - member-code: font-size untuk kode (contoh: 0.65em) 
+   - valid-date: font-size untuk tanggal (contoh: 0.65em)
+
+4. ALIGNMENT TEKS:
+   - text-align: left (rata kiri)
+   - text-align: right (rata kanan)
+   - text-align: center (rata tengah)
+
+5. BREAKPOINT MOBILE:
+   - @media (max-width: 480px) untuk semua mobile
+   - @media (max-width: 360px) untuk layar kecil
+
+CONTOH PENYESUAIAN:
+.active-worker-bg .card-content .member-info {
+  left: 25%;        ← Posisi horizontal dari kiri
+  top: 65%;         ← Posisi vertikal dari atas  
+  text-align: right; ← Alignment teks
+}
+
+.card-content .member-info .member-name {
+  font-size: 0.8em; ← Ukuran font nama
+}
+===========================================
+*/
+
+/* 
+===========================================
+✅ PERBAIKAN BERHASIL: SISTEM GRUP TEKS SEJAJAR
+===========================================
+
+🎯 UNTUK LAPTOP/DESKTOP - KONTROL ALIGNMENT GRUP:
+
+SEMUA ELEMEN TEKS (nama, kode, tanggal) sekarang dalam 1 kelompok sejajar!
+
+CARA MENGUBAH ALIGNMENT SEMUA TEKS SEKALIGUS:
+
+1. UNTUK RATA KIRI (LEFT):
+   text-align: left;
+   align-items: flex-start;
+
+2. UNTUK RATA TENGAH (CENTER):  
+   text-align: center;
+   align-items: center;
+
+3. UNTUK RATA KANAN (RIGHT):
+   text-align: right; 
+   align-items: flex-end;
+
+CONTOH: Mengubah Active Worker jadi rata kiri semua teksnya:
+.active-worker-bg .card-content .member-info {
+  text-align: left;        ← Semua teks jadi rata kiri
+  align-items: flex-start; ← Flexbox ikuti alignment
+}
+
+⚠️ CATATAN: Cukup ubah 2 property di atas dan semua teks akan sejajar!
+
+✅ PERBAIKAN TERBARU: TEKS PANJANG TIDAK TURUN & TIDAK TERPOTONG
+===========================================
+
+🎯 SOLUSI NAMA PANJANG YANG TELAH DITERAPKAN:
+
+1. HILANGKAN BATASAN LEBAR MAKSIMAL:
+   max-width: none           ← Tidak ada batas maksimal
+   width: auto              ← Lebar otomatis sesuai konten
+
+2. PERTAHANKAN POSISI ALIGNMENT:
+   - text-align tetap (left/right/center)
+   - align-items tetap sesuai text-align
+   - Posisi top/left/right tetap sama
+
+3. MENCEGAH TEKS TURUN KE BARIS BARU:
+   white-space: nowrap      ← Paksa tetap dalam 1 baris
+   
+4. TIDAK ADA PEMOTONGAN TEKS:
+   - overflow: hidden DIHAPUS
+   - text-overflow: ellipsis DIHAPUS
+   - Teks panjang ditampilkan penuh
+
+HASIL: Nama seperti "Dr. Muhammad Abdullah Rahman Al-Farisi" 
+akan ditampilkan penuh dengan alignment yang benar tanpa turun baris!
+
+===========================================
+*/
+
+/* Override default card content positioning for image-based cards */
+.card-background {
+  position: relative;
+}
+
+.card-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 12px 16px; /* Padding dalam kartu - bisa diubah sesuai kebutuhan */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center positioning karena header dan footer telah dihapus */
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  background: rgba(
+    0,
+    0,
+    0,
+    0.1
+  ); /* Overlay transparansi untuk keterbacaan text */
+}
+
+/* 
+===========================================
+SPECIFIC POSITIONING FOR EACH CARD TYPE
+===========================================
+Sesuaikan posisi text untuk setiap jenis kartu berdasarkan background image
+Semua teks (nama, kode, tanggal) dikelompokkan dalam satu container dengan alignment yang konsisten
+*/
+
+/* ACTIVE WORKER CARD - Positioning untuk kartu pekerja aktif */
+.active-worker-bg .card-content .member-info {
+  position: absolute;
+  top: 69%; /* Posisi vertikal grup teks */
+  right: 5%; /* PERBAIKAN: Gunakan right untuk alignment right agar posisi kanan tetap */
+  text-align: right; /* Alignment right - semua teks mengikuti */
+  min-width: 200px; /* DIPERKECIL: Lebar minimal container untuk responsive */
+  max-width: none; /* DIHILANGKAN: Tidak ada batasan maksimal agar teks panjang tidak terpotong */
+  width: auto; /* DITAMBAH: Lebar otomatis sesuai konten teks */
+  /* PERBAIKAN: Kontrol grup yang konsisten */
+  display: flex; /* Flexbox untuk kontrol yang lebih baik */
+  flex-direction: column; /* Susunan vertikal */
+  align-items: flex-end; /* Semua elemen rata kanan (sesuai text-align) */
+  gap: 2px; /* Jarak antar elemen */
+}
+
+/* FAMILY MEMBER CARD - Positioning untuk kartu anggota keluarga */
+.family-member-bg .card-content .member-info {
+  position: absolute;
+  top: 67%; /* Posisi grup teks di area kanan atas */
+  right: 7%; /* Posisi dari kanan kartu - bagian kanan tetap */
+  text-align: right; /* Alignment kanan - semua teks mengikuti */
+  min-width: 200px; /* DIPERKECIL: Lebar minimal container untuk responsive */
+  max-width: none; /* DIHILANGKAN: Tidak ada batasan maksimal agar teks panjang tidak terpotong */
+  width: auto; /* DITAMBAH: Lebar otomatis sesuai konten teks */
+  /* PERBAIKAN: Kontrol grup yang konsisten */
+  display: flex; /* Flexbox untuk kontrol yang lebih baik */
+  flex-direction: column; /* Susunan vertikal */
+  align-items: flex-end; /* Semua elemen rata kanan (sesuai text-align) */
+  gap: 2px; /* Jarak antar elemen */
+}
+
+/* HEALTHY & SMART KIDS CARD - Positioning untuk kartu anak sehat */
+.healthy-smart-kids-bg .card-content .member-info {
+  position: absolute;
+  top: 67%; /* Posisi vertikal grup teks */
+  right: 7%; /* PERBAIKAN: Gunakan right untuk alignment right agar posisi kanan tetap */
+  text-align: right; /* Alignment right - semua teks mengikuti */
+  min-width: 150px; /* DIPERKECIL: Lebar minimal container untuk responsive */
+  max-width: none; /* DIHILANGKAN: Tidak ada batasan maksimal agar teks panjang tidak terpotong */
+  width: auto; /* DITAMBAH: Lebar otomatis sesuai konten teks */
+  /* PERBAIKAN: Kontrol grup yang konsisten */
+  display: flex; /* Flexbox untuk kontrol yang lebih baik */
+  flex-direction: column; /* Susunan vertikal */
+  align-items: flex-end; /* Semua elemen rata kanan (sesuai text-align) */
+  gap: 2px; /* Jarak antar elemen */
+}
+
+/* MUMS & BABY CARD - Positioning untuk kartu ibu dan bayi */
+.mums-baby-bg .card-content .member-info {
+  position: absolute;
+  top: 69%; /* Posisi vertikal grup teks */
+  left: 6%; /* Posisi horizontal - bagian kiri tetap */
+  text-align: left; /* Alignment kiri - semua teks mengikuti */
+  min-width: 150px; /* DIPERKECIL: Lebar minimal container untuk responsive */
+  max-width: none; /* DIHILANGKAN: Tidak ada batasan maksimal agar teks panjang tidak terpotong */
+  width: auto; /* DITAMBAH: Lebar otomatis sesuai konten teks */
+  /* PERBAIKAN: Kontrol grup yang konsisten */
+  display: flex; /* Flexbox untuk kontrol yang lebih baik */
+  flex-direction: column; /* Susunan vertikal */
+  align-items: flex-start; /* Semua elemen rata kiri (sesuai text-align) */
+  gap: 2px; /* Jarak antar elemen */
+}
+
+/* NEW COUPLE CARD - Positioning untuk kartu pasangan baru */
+.new-couple-bg .card-content .member-info {
+  position: absolute;
+  top: 68%; /* Posisi vertikal grup teks */
+  left: 6%; /* Posisi horizontal - bagian kiri tetap */
+  text-align: left; /* Alignment kiri - semua teks mengikuti */
+  min-width: 150px; /* DIPERKECIL: Lebar minimal container untuk responsive */
+  max-width: none; /* DIHILANGKAN: Tidak ada batasan maksimal agar teks panjang tidak terpotong */
+  width: auto; /* DITAMBAH: Lebar otomatis sesuai konten teks */
+  /* PERBAIKAN: Kontrol grup yang konsisten */
+  display: flex; /* Flexbox untuk kontrol yang lebih baik */
+  flex-direction: column; /* Susunan vertikal */
+  align-items: flex-start; /* Semua elemen rata kiri (sesuai text-align) */
+  gap: 2px; /* Jarak antar elemen */
+}
+
+/* PREGNANT PREPARATION CARD - Positioning untuk kartu persiapan kehamilan */
+.pregnant-preparation-bg .card-content .member-info {
+  position: absolute;
+  top: 68%; /* Posisi vertikal grup teks */
+  left: 5%; /* Posisi horizontal - bagian kiri tetap */
+  text-align: left; /* Alignment kiri - semua teks mengikuti */
+  min-width: 150px; /* DIPERKECIL: Lebar minimal container untuk responsive */
+  max-width: none; /* DIHILANGKAN: Tidak ada batasan maksimal agar teks panjang tidak terpotong */
+  width: auto; /* DITAMBAH: Lebar otomatis sesuai konten teks */
+  /* PERBAIKAN: Kontrol grup yang konsisten */
+  display: flex; /* Flexbox untuk kontrol yang lebih baik */
+  flex-direction: column; /* Susunan vertikal */
+  align-items: flex-start; /* Semua elemen rata kiri (sesuai text-align) */
+  gap: 2px; /* Jarak antar elemen */
+}
+
+/* SENJA CERIA CARD - Positioning untuk kartu senja ceria (lansia) */
+.senja-ceria-bg .card-content .member-info {
+  position: absolute;
+  top: 68%; /* Posisi vertikal grup teks */
+  right: 5%; /* PERBAIKAN: Gunakan right untuk alignment right agar posisi kanan tetap */
+  text-align: right; /* Alignment right - semua teks mengikuti */
+  min-width: 150px; /* DIPERKECIL: Lebar minimal container untuk responsive */
+  max-width: none; /* DIHILANGKAN: Tidak ada batasan maksimal agar teks panjang tidak terpotong */
+  width: auto; /* DITAMBAH: Lebar otomatis sesuai konten teks */
+  /* PERBAIKAN: Kontrol grup yang konsisten */
+  display: flex; /* Flexbox untuk kontrol yang lebih baik */
+  flex-direction: column; /* Susunan vertikal */
+  align-items: flex-end; /* Semua elemen rata kanan (sesuai text-align) */
+  gap: 2px; /* Jarak antar elemen */
+}
+
+/* 
+===========================================
+GROUPED TEXT ELEMENTS STYLING
+===========================================
+Styling untuk elemen teks yang dikelompokkan dalam member-info container
+*/
+
+/* Styling individual untuk setiap elemen dalam grup - SEMUA SEJAJAR */
+.card-content .member-info .member-name {
+  font-size: 1.2em; /* Ukuran font nama */
+  font-weight: 600;
+  margin-bottom: 4px; /* Jarak ke elemen berikutnya */
+  display: block; /* Block untuk alignment yang konsisten */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: white;
+  /* PERBAIKAN: Semua elemen dalam satu grup sejajar */
+  text-align: inherit; /* Ikuti alignment dari parent (member-info) */
+  box-sizing: border-box; /* Konsisten dengan elemen lain */
+  white-space: nowrap; /* DITAMBAH: Mencegah text wrapping tapi tanpa batasan lebar */
+  width: auto; /* DITAMBAH: Lebar otomatis sesuai konten teks */
+  min-width: 0; /* DITAMBAH: Tidak ada minimal width yang memaksa */
+  max-width: none; /* DITAMBAH: Tidak ada maksimal width yang membatasi */
+  flex-shrink: 0; /* Tidak mengecil di flexbox */
+}
+
+.card-content .member-info .member-code {
+  font-size: 0.9em; /* Ukuran font kode */
+  font-weight: 600;
+  margin-bottom: 4px; /* Jarak ke elemen berikutnya */
+  display: block; /* Block untuk alignment yang konsisten */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  padding: 3px 6px;
+  border-radius: 3px;
+  color: white;
+  /* PERBAIKAN: Semua elemen dalam satu grup sejajar */
+  text-align: inherit; /* Ikuti alignment dari parent (member-info) */
+  box-sizing: border-box; /* Konsisten dengan elemen lain */
+  white-space: nowrap; /* DITAMBAH: Mencegah text wrapping tapi tanpa batasan lebar */
+  width: auto; /* DITAMBAH: Lebar otomatis sesuai konten teks */
+  min-width: 0; /* DITAMBAH: Tidak ada minimal width yang memaksa */
+  max-width: none; /* DITAMBAH: Tidak ada maksimal width yang membatasi */
+  flex-shrink: 0; /* Tidak mengecil di flexbox */
+}
+
+.card-content .member-info .valid-date {
+  font-size: 0.8em; /* Ukuran font tanggal berlaku */
+  font-weight: 500;
+  display: block; /* Block untuk alignment yang konsisten */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  padding: 3px 6px;
+  border-radius: 3px;
+  color: white;
+  /* PERBAIKAN: Semua elemen dalam satu grup sejajar */
+  text-align: inherit; /* Ikuti alignment dari parent (member-info) */
+  box-sizing: border-box; /* Konsisten dengan elemen lain */
+  white-space: nowrap; /* DITAMBAH: Mencegah text wrapping tapi tanpa batasan lebar */
+  width: auto; /* DITAMBAH: Lebar otomatis sesuai konten teks */
+  min-width: 0; /* DITAMBAH: Tidak ada minimal width yang memaksa */
+  max-width: none; /* DITAMBAH: Tidak ada maksimal width yang membatasi */
+  flex-shrink: 0; /* Tidak mengecil di flexbox */
+}
+
+/* 
+===========================================
+BASIC TEXT STYLING FOR ALL CARDS
+===========================================
+Styling dasar yang berlaku untuk semua jenis kartu
+Styling ini akan di-override oleh grup styling di atas
+*/
+
+/* Styling dasar untuk elemen yang tidak dalam grup member-info */
+.card-content .member-name:not(.member-info .member-name) {
+  font-weight: 700;
+  font-size: 1.3em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  color: white;
+}
+
+.card-content .member-code:not(.member-info .member-code) {
+  font-weight: 600;
+  font-size: 1em;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 3px 6px;
+  border-radius: 3px;
+  display: inline-block;
+  color: white;
+}
+
+.card-content .valid-date:not(.member-info .valid-date) {
+  font-weight: 500;
+  font-size: 0.9em;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 3px 6px;
+  border-radius: 3px;
+  display: inline-block;
+  color: white;
+}
+
+/* Styling untuk card-type dan brand-logo telah dihapus karena elemen tersebut sudah tidak digunakan */
+
+/* Card back styling */
+.card-content-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 12px 16px; /* Adjusted padding for credit card proportions */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.3); /* Overlay for better text readability */
+}
+
+/* Hide default terms on back since images already contain them */
+.card-content-back .terms-conditions,
+.card-content-back .contact-info {
+  display: none;
+}
+
+/* 
+===========================================
+RESPONSIVE ADJUSTMENTS
+===========================================
+Penyesuaian untuk berbagai ukuran layar
+Anda dapat mengubah breakpoint dan nilai-nilai berikut sesuai kebutuhan
+*/
+
+/* DESKTOP LARGE - Layar besar (min-width: 1200px) */
+@media (min-width: 1200px) {
+  .card-wrapper {
+    max-width: 680px; /* Ukuran optimal untuk desktop besar */
+  }
+}
+
+/* DESKTOP MEDIUM - Layar desktop medium (min-width: 992px and max-width: 1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .card-wrapper {
+    max-width: 420px; /* Ukuran untuk desktop medium */
+  }
+}
+
+/* TABLET SIZE - Layar medium (max-width: 768px) */
+@media (max-width: 768px) {
+  .card-wrapper {
+    max-width: 768px; /* Lebar maksimal kartu di tablet - DIPERBESAR untuk mengatasi text wrapping */
+  }
+
+  .card-content,
+  .card-content-back {
+    padding: 10px 12px; /* Padding kartu di tablet */
+  }
+
+  /* RESPONSIVE: Penyesuaian positioning untuk grup member-info di tablet */
+  .card-content .member-info {
+    min-width: 120px !important; /* DIPERBESAR: Override min-width untuk tablet agar teks tidak turun */
+    max-width: none !important; /* DIHILANGKAN: Tidak ada batasan maksimal agar teks panjang tidak terpotong */
+    width: auto !important; /* DITAMBAH: Lebar otomatis sesuai konten teks */
+  }
+
+  /* Penyesuaian positioning spesifik untuk setiap kartu di tablet */
+  .active-worker-bg .card-content .member-info {
+    right: 2%; /* PERBAIKAN: Gunakan right untuk alignment right agar posisi kanan tetap */
+  }
+
+  .family-member-bg .card-content .member-info {
+    right: 1%; /* Posisi lebih dekat ke kanan di tablet */
+  }
+
+  .healthy-smart-kids-bg .card-content .member-info {
+    right: 2%; /* PERBAIKAN: Gunakan right untuk alignment right agar posisi kanan tetap */
+  }
+
+  .mums-baby-bg .card-content .member-info {
+    left: 55%; /* Posisi disesuaikan untuk tablet */
+  }
+
+  .new-couple-bg .card-content .member-info {
+    left: 6%; /* Posisi disesuaikan untuk tablet */
+  }
+
+  .pregnant-preparation-bg .card-content .member-info {
+    left: 50%; /* Posisi disesuaikan untuk tablet */
+  }
+
+  .senja-ceria-bg .card-content .member-info {
+    right: 2%; /* PERBAIKAN: Gunakan right untuk alignment right agar posisi kanan tetap */
+  }
+
+  .card-content .member-info .member-name {
+    font-size: 1em; /* Ukuran nama di tablet */
+    padding: 3px 6px;
+  }
+
+  .card-content .member-info .member-code,
+  .card-content .member-info .valid-date {
+    font-size: 0.75em; /* Ukuran kode dan tanggal di tablet */
+    padding: 2px 4px;
+  }
+}
+
+/* MOBILE SIZE - Layar kecil (max-width: 480px) */
+@media (max-width: 480px) {
+  .card-wrapper {
+    max-width: 480px; /* DIPERKECIL: Lebar maksimal kartu di mobile agar sesuai dengan style.css */
+  }
+
+  .card-content,
+  .card-content-back {
+    padding: 8px 10px; /* Padding kartu di mobile disesuaikan */
+  }
+
+  /* RESPONSIVE: Penyesuaian positioning untuk grup member-info di mobile */
+  .card-content .member-info {
+    min-width: 100px !important; /* DIPERBESAR: Lebar minimal container di mobile agar teks tidak turun */
+    max-width: none !important; /* DIHILANGKAN: Tidak ada batasan maksimal agar teks panjang tidak terpotong */
+    width: auto !important; /* DITAMBAH: Lebar otomatis sesuai konten teks */
+    /* PERBAIKAN: Flexbox control tetap konsisten di mobile */
+    display: flex !important; /* Flexbox untuk kontrol yang lebih baik */
+    flex-direction: column !important; /* Susunan vertikal */
+    gap: 2px !important; /* Jarak antar elemen */
+  }
+
+  /* 🎯 KONTROL POSITIONING UNTUK SETIAP KARTU DI MOBILE/ANDROID */
+
+  /* Active Worker - Kartu Pekerja Aktif */
+  .active-worker-bg .card-content .member-info {
+    right: 5%; /* PERBAIKAN: Gunakan right untuk alignment right agar posisi kanan tetap */
+    top: 65%; /* 📍 UBAH INI: Posisi vertikal dari atas (0%-100%) */
+    text-align: right; /* 📍 UBAH INI: left|center|right */
+    align-items: flex-end !important; /* Ikuti text-align: right */
+  }
+
+  /* Family Member - Kartu Anggota Keluarga */
+  .family-member-bg .card-content .member-info {
+    right: 7%; /* 📍 UBAH INI: Posisi horizontal dari kanan (0%-100%) */
+    top: 63%; /* 📍 UBAH INI: Posisi vertikal dari atas (0%-100%) */
+    text-align: right; /* 📍 UBAH INI: left|center|right */
+    align-items: flex-end !important; /* Ikuti text-align: right */
+  }
+
+  /* Healthy & Smart Kids - Kartu Anak Sehat */
+  .healthy-smart-kids-bg .card-content .member-info {
+    top: 55%; /* 📍 UBAH INI: Posisi vertikal dari atas (0%-100%) */
+    right: 5%; /* PERBAIKAN: Gunakan right untuk alignment right agar posisi kanan tetap */
+    text-align: right; /* 📍 UBAH INI: left|center|right */
+    align-items: flex-end !important; /* Ikuti text-align: right */
+  }
+
+  /* Mums & Baby - Kartu Ibu dan Bayi */
+  .mums-baby-bg .card-content .member-info {
+    left: 6%; /* 📍 UBAH INI: Posisi horizontal dari kiri (0%-100%) */
+    top: 65%; /* 📍 UBAH INI: Posisi vertikal dari atas (0%-100%) */
+    text-align: left; /* 📍 UBAH INI: left|center|right */
+    align-items: flex-start !important; /* Ikuti text-align: left */
+  }
+
+  /* New Couple - Kartu Pasangan Baru */
+  .new-couple-bg .card-content .member-info {
+    left: 8%; /* 📍 UBAH INI: Posisi horizontal dari kiri (0%-100%) */
+    top: 64%; /* 📍 UBAH INI: Posisi vertikal dari atas (0%-100%) */
+    text-align: left; /* PERBAIKAN: Ubah ke left karena menggunakan left positioning */
+    align-items: flex-start !important; /* Ikuti text-align: left */
+  }
+
+  /* Pregnant Preparation - Kartu Persiapan Kehamilan */
+  .pregnant-preparation-bg .card-content .member-info {
+    left: 7%; /* 📍 UBAH INI: Posisi horizontal dari kiri (0%-100%) */
+    top: 64%; /* 📍 UBAH INI: Posisi vertikal dari atas (0%-100%) */
+    text-align: left; /* 📍 UBAH INI: left|center|right */
+    align-items: flex-start !important; /* Ikuti text-align: left */
+  }
+
+  /* Senja Ceria - Kartu Senja Ceria (Lansia) */
+  .senja-ceria-bg .card-content .member-info {
+    right: 5%; /* PERBAIKAN: Gunakan right untuk alignment right agar posisi kanan tetap */
+    top: 64%; /* 📍 UBAH INI: Posisi vertikal dari atas (0%-100%) */
+    text-align: right; /* 📍 UBAH INI: left|center|right */
+    align-items: flex-end !important; /* Ikuti text-align: right */
+  }
+
+  /* 🎯 KONTROL UKURAN TEKS DI MOBILE/ANDROID - RESPONSIVE */
+  .card-content .member-info .member-name {
+    font-size: 0.85em; /* 📍 UBAH INI: Ukuran font nama sedikit diperbesar (0.5em - 1.5em) */
+    padding: 3px 4px; /* Padding untuk keterbacaan */
+    margin-bottom: 2px; /* Jarak ke elemen berikutnya */
+    white-space: nowrap; /* DITAMBAH: Tetap dalam satu baris tanpa batasan lebar */
+    width: auto; /* DITAMBAH: Lebar otomatis sesuai konten teks */
+    min-width: 0; /* DITAMBAH: Tidak ada minimal width yang memaksa */
+    max-width: none !important; /* DIHILANGKAN: Tidak ada batasan maksimal agar teks panjang tidak terpotong */
+    font-weight: 700; /* Ketebalan font (400=normal, 700=bold) */
+  }
+
+  .card-content .member-info .member-code,
+  .card-content .member-info .valid-date {
+    font-size: 0.7em; /* 📍 UBAH INI: Ukuran font kode & tanggal sedikit diperbesar (0.4em - 1.2em) */
+    padding: 2px 3px; /* Padding untuk keterbacaan */
+    margin-bottom: 2px; /* Jarak ke elemen berikutnya */
+    white-space: nowrap; /* DITAMBAH: Tetap dalam satu baris tanpa batasan lebar */
+    width: auto; /* DITAMBAH: Lebar otomatis sesuai konten teks */
+    min-width: 0; /* DITAMBAH: Tidak ada minimal width yang memaksa */
+    max-width: none; /* DITAMBAH: Tidak ada maksimal width yang membatasi */
+  }
+}
+
+/* MOBILE EXTRA SMALL - Layar sangat kecil (max-width: 360px) */
+@media (max-width: 360px) {
+  .card-wrapper {
+    max-width: 360px; /* Lebar maksimal kartu di mobile sangat kecil */
+  }
+
+  /* RESPONSIVE: Penyesuaian positioning untuk layar sangat kecil */
+  .card-content .member-info {
+    min-width: 80px !important; /* DIPERBESAR: Minimal width untuk layar sangat kecil agar teks tidak turun */
+    max-width: none !important; /* DIHILANGKAN: Tidak ada batasan maksimal agar teks panjang tidak terpotong */
+    width: auto !important; /* DITAMBAH: Lebar otomatis sesuai konten teks */
+  }
+
+  /* PERBAIKAN: Ukuran font yang lebih proporsional untuk layar sangat kecil */
+  .card-content .member-info .member-name {
+    font-size: 0.8em; /* Ukuran nama di mobile sangat kecil sedikit diperbesar */
+    max-width: none !important; /* DIHILANGKAN: Tidak ada batasan maksimal agar teks panjang tidak terpotong */
+    width: auto; /* DITAMBAH: Lebar otomatis sesuai konten teks */
+    min-width: 0; /* DITAMBAH: Tidak ada minimal width yang memaksa */
+    padding: 2px 3px; /* Padding minimal namun tetap terbaca */
+    white-space: nowrap; /* DITAMBAH: Tetap dalam satu baris tanpa batasan lebar */
+  }
+
+  .card-content .member-info .member-code,
+  .card-content .member-info .valid-date {
+    font-size: 0.65em; /* Ukuran kode dan tanggal di mobile sangat kecil */
+    padding: 1px 2px; /* Padding minimal */
+    white-space: nowrap; /* DITAMBAH: Tetap dalam satu baris tanpa batasan lebar */
+    width: auto; /* DITAMBAH: Lebar otomatis sesuai konten teks */
+    min-width: 0; /* DITAMBAH: Tidak ada minimal width yang memaksa */
+    max-width: none; /* DITAMBAH: Tidak ada maksimal width yang membatasi */
+  }
+
+  /* PERBAIKAN: Penyesuaian positioning untuk layar sangat kecil - tetap proporsional */
+  .active-worker-bg .card-content .member-info {
+    right: 5%; /* PERBAIKAN: Gunakan right untuk alignment right agar posisi kanan tetap */
+  }
+
+  .family-member-bg .card-content .member-info {
+    right: 6%; /* Posisi disesuaikan dari kanan */
+  }
+
+  .healthy-smart-kids-bg .card-content .member-info {
+    right: 5%; /* PERBAIKAN: Gunakan right untuk alignment right agar posisi kanan tetap */
+  }
+
+  .senja-ceria-bg .card-content .member-info {
+    right: 5%; /* PERBAIKAN: Gunakan right untuk alignment right agar posisi kanan tetap */
+  }
+}
+
+/* 
+===========================================
+📱 PANDUAN LENGKAP MENGUBAH POSISI TEKS DI HP/ANDROID
+===========================================
+
+/* 
+===========================================
+📱 PANDUAN LENGKAP MENGATUR WIDTH CARD & TEKS ANDROID/TABLET
+===========================================
+
+🎯 UNTUK MENGUBAH BATAS WIDTH CARD & POSITIONING TEKS:
+
+1. WIDTH KARTU (Card Width) - TABLET & MOBILE:
+   📍 TABLET (max-width: 768px):
+      .card-wrapper { max-width: 380px; }     ← Lebar kartu tablet
+      .member-info { max-width: 250px; }      ← Lebar container teks tablet
+   
+   📍 MOBILE (max-width: 480px):
+      .card-wrapper { max-width: 320px; }     ← Lebar kartu mobile  
+      .member-info { max-width: 180px; }      ← Lebar container teks mobile
+   
+   📍 MOBILE SMALL (max-width: 360px):
+      .card-wrapper { max-width: 280px; }     ← Lebar kartu mobile kecil
+      .member-info { max-width: 140px; }      ← Lebar container teks mobile kecil
+
+2. UKURAN TEKS (Font Size) - MOBILE:
+   📍 NAMA: font-size: 0.85em       ← Ukuran nama di mobile
+   📍 KODE: font-size: 0.7em        ← Ukuran kode di mobile  
+   📍 TANGGAL: font-size: 0.7em     ← Ukuran tanggal di mobile
+
+3. MENCEGAH TEKS TURUN KE BARIS BERIKUTNYA:
+   ✅ white-space: nowrap           ← Paksa teks tetap dalam 1 baris
+   ✅ overflow: hidden              ← Sembunyikan teks yang overflow
+   ✅ text-overflow: ellipsis       ← Tampilkan ... jika teks terlalu panjang
+
+⚠️ CATATAN PENTING:
+- Jika teks masih turun ke baris baru, PERBESAR max-width container member-info
+- Jika kartu terlalu besar, PERKECIL max-width card-wrapper
+- Pastikan keseimbangan antara ukuran kartu dan ukuran container teks
+
+LOKASI FILE: css/card-positioning.css
+SECTION: @media (max-width: 768px), @media (max-width: 480px), @media (max-width: 360px)
+===========================================
+*/
+
+/* 
+🎯 CARA MENGUBAH POSISI HORIZONTAL (Kiri-Kanan):
+   Cari baris dengan komentar "📍 UBAH INI: Posisi horizontal"
+   - left: 25% = teks berada 25% dari sisi kiri kartu
+   - right: 5% = teks berada 5% dari sisi kanan kartu
+   - Nilai 0% = paling kiri/kanan, 100% = paling kanan/kiri
+
+🎯 CARA MENGUBAH POSISI VERTIKAL (Atas-Bawah):
+   Cari baris dengan komentar "📍 UBAH INI: Posisi vertikal"
+   - top: 65% = teks berada 65% dari atas kartu
+   - Nilai 0% = paling atas, 100% = paling bawah
+
+🎯 CARA MENGUBAH UKURAN TEKS:
+   Cari baris dengan komentar "📍 UBAH INI: Ukuran font"
+   - font-size: 0.8em = ukuran normal untuk nama
+   - font-size: 0.65em = ukuran normal untuk kode & tanggal
+   - Nilai 0.5em = sangat kecil, 1.5em = sangat besar
+
+🎯 CARA MENGUBAH ALIGNMENT TEKS:
+   Cari baris dengan komentar "📍 UBAH INI: left|center|right"
+   - text-align: left = rata kiri
+   - text-align: center = rata tengah  
+   - text-align: right = rata kanan
+*/
