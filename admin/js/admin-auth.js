@@ -144,7 +144,6 @@ class AdminAuth {
           "docterbee_admin_session",
           JSON.stringify({
             username: result.admin.username,
-            role: result.admin.role,
             loginTime: new Date().getTime(),
           })
         );
