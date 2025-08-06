@@ -347,7 +347,6 @@ Untuk kontribusi atau bug reports, silakan hubungi developer melalui Instagram y
 
 Untuk dukungan teknis atau pertanyaan, hubungi:
 
-- Email: 105841101320@student.unismuh.ac.id
 - WhatsApp: 081342619887
 
 ---
