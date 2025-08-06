@@ -573,7 +573,7 @@ Komentar: Pengaturan ukuran kartu - ubah nilai berikut untuk menyesuaikan ukuran
 }
 
 .modal-header h3 {
-  color: #dc3545; /* Warna merah sesuai tema aplikasi */
+  color: #35dc3d; /* Warna merah sesuai tema aplikasi */
   font-size: 16px; /* Font size lebih kecil untuk kesan dewasa */
   font-weight: 600; /* Font weight sedang */
   display: flex;
@@ -632,6 +632,21 @@ Komentar: Pengaturan ukuran kartu - ubah nilai berikut untuk menyesuaikan ukuran
     max-width: 400px; /* Ukuran kartu untuk tablet landscape */
   }
 
+  /* Responsive button text untuk tablet landscape */
+  .btn {
+    font-size: 0.85em; /* Ukuran font lebih kecil untuk tablet landscape */
+    padding: 11px 12px; /* Padding disesuaikan */
+    min-width: 110px; /* Minimum width yang lebih kecil untuk tablet */
+    white-space: nowrap; /* Tetap mencegah text wrapping */
+    overflow: hidden; /* Cegah overflow */
+    text-overflow: ellipsis; /* Tambahkan ellipsis jika teks terlalu panjang */
+  }
+
+  .btn-whatsapp {
+    min-width: 130px; /* Minimum width disesuaikan untuk tablet */
+    font-size: 0.85em; /* Ukuran font disesuaikan */
+  }
+
   /* Responsive tombol admin untuk tablet landscape */
   .btn-admin {
     padding: 10px 18px;
@@ -659,11 +674,15 @@ Komentar: Pengaturan ukuran kartu - ubah nilai berikut untuk menyesuaikan ukuran
 
   .form-actions {
     flex-direction: column; /* Stack tombol vertikal di tablet */
+    gap: 12px; /* Jarak antar tombol di tablet */
   }
 
   .btn {
     flex: none;
     width: 100%; /* Tombol full width di tablet */
+    font-size: 0.9em; /* Ukuran font sedikit lebih kecil untuk tablet */
+    padding: 14px 16px; /* Padding disesuaikan untuk tablet */
+    text-align: center; /* Pastikan teks di tengah */
   }
 
   .container {
@@ -785,6 +804,16 @@ Komentar: Pengaturan ukuran kartu - ubah nilai berikut untuk menyesuaikan ukuran
     padding: 14px 20px; /* Padding tombol lebih besar untuk touch */
     font-size: 0.9em;
   }
+
+  /* Responsive search button untuk mobile */
+  .btn-search {
+    padding: 12px 14px;
+    font-size: 0.85em;
+    min-width: 70px;
+    max-width: none; /* Hapus batasan max-width untuk Android */
+    gap: 4px;
+    width: 100%; /* Tombol search full width untuk Android */
+  }
 }
 
 /* MOBILE SMALL - Layar mobile kecil (max-width: 480px) */
@@ -833,6 +862,16 @@ Komentar: Pengaturan ukuran kartu - ubah nilai berikut untuk menyesuaikan ukuran
     font-size: 1.3em;
     margin-bottom: 20px;
   }
+
+  /* Responsive search button untuk mobile small */
+  .btn-search {
+    padding: 10px 12px;
+    font-size: 0.8em;
+    min-width: 60px;
+    max-width: none; /* Hapus batasan max-width untuk Android */
+    gap: 3px;
+    width: 100%; /* Tombol search full width untuk Android */
+  }
 }
 
 /* MOBILE EXTRA SMALL - Layar sangat kecil (max-width: 360px) */
@@ -878,6 +917,16 @@ Komentar: Pengaturan ukuran kartu - ubah nilai berikut untuk menyesuaikan ukuran
   .btn {
     padding: 12px 15px;
     font-size: 0.85em;
+  }
+
+  /* Responsive search button untuk mobile extra small */
+  .btn-search {
+    padding: 8px 10px;
+    font-size: 0.75em;
+    min-width: 50px;
+    max-width: none; /* Hapus batasan max-width untuk Android */
+    gap: 2px;
+    width: 100%; /* Tombol search full width untuk Android */
   }
 
   /* Responsive fitur search dan WhatsApp untuk layar kecil */
@@ -954,17 +1003,19 @@ Komentar: Pengaturan ukuran kartu - ubah nilai berikut untuk menyesuaikan ukuran
   background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
   color: white;
   border: none;
-  padding: 12px 20px;
+  padding: 12px 16px;
   border-radius: 10px;
   cursor: pointer;
-  font-size: 0.95em;
+  font-size: 0.9em;
   font-weight: 500;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   white-space: nowrap;
-  flex-shrink: 0; /* Mencegah tombol menyusut */
+  flex-shrink: 1; /* Izinkan tombol menyusut jika perlu */
+  min-width: 80px; /* Minimum width agar tetap bisa dibaca */
+  max-width: 120px; /* Batasi lebar maksimal */
 }
 
 .btn-search:hover {

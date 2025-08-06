@@ -97,32 +97,32 @@
     <main class="admin-main">
       <!-- Statistics Cards - Section untuk menampilkan statistik member -->
       <section class="stats-section">
-        <h2><i class="fas fa-chart-bar"></i> Statistik Pelanggan</h2>
+        <h2>📊 Statistik Pelanggan</h2>
         <div class="stats-grid">
           <div class="stat-card total-members">
-            <div class="stat-icon">
-              <i class="fas fa-users"></i>
-            </div>
+            <div class="stat-icon">👥</div>
             <div class="stat-info">
               <h3 id="totalMembers">0</h3>
               <p>Total Pelanggan</p>
             </div>
           </div>
 
-          <div class="stat-card today-registrations">
-            <div class="stat-icon">
-              <i class="fas fa-user-plus"></i>
-            </div>
+          <div
+            class="stat-card today-registrations"
+            onclick="showRegistrationModal()"
+          >
+            <div class="stat-icon">👤</div>
             <div class="stat-info">
               <h3 id="todayRegistrations">0</h3>
               <p>Pendaftar Hari Ini</p>
             </div>
           </div>
 
-          <div class="stat-card total-transactions">
-            <div class="stat-icon">
-              <i class="fas fa-shopping-cart"></i>
-            </div>
+          <div
+            class="stat-card total-transactions"
+            onclick="showTransactionModal()"
+          >
+            <div class="stat-icon">🛒</div>
             <div class="stat-info">
               <h3 id="totalTransactions">0</h3>
               <p>Total Transaksi</p>
@@ -130,9 +130,7 @@
           </div>
 
           <div class="stat-card top-customer">
-            <div class="stat-icon">
-              <i class="fas fa-crown"></i>
-            </div>
+            <div class="stat-icon">👑</div>
             <div class="stat-info">
               <h3 id="topCustomerName">-</h3>
               <p>Pelanggan Terbaik</p>
@@ -141,10 +139,65 @@
         </div>
       </section>
 
+      <!-- Admin Activity Log -->
+      <section class="activity-section">
+        <div class="section-header">
+          <h3>📝 Log Aktivitas Admin</h3>
+          <div class="section-actions">
+            <button class="btn btn-refresh" onclick="loadActivityLog()">
+              Refresh Log
+            </button>
+            <button class="btn btn-clear-log" onclick="clearActivityLog()">
+              Bersihkan Log
+            </button>
+          </div>
+        </div>
+
+        <div class="activity-filters">
+          <div class="filter-group">
+            <label>Filter Aktivitas:</label>
+            <select id="activityFilter" onchange="filterActivities()">
+              <option value="all">Semua Aktivitas</option>
+              <option value="login">Login Admin</option>
+              <option value="member_add">Tambah Member</option>
+              <option value="member_edit">Edit Member</option>
+              <option value="member_delete">Hapus Member</option>
+              <option value="admin_create">Buat Admin</option>
+              <option value="admin_delete">Hapus Admin</option>
+              <option value="transaction">Transaksi</option>
+              <option value="download">Download Data</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Admin:</label>
+            <select id="adminFilter" onchange="filterActivities()">
+              <option value="all">Semua Admin</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Periode:</label>
+            <select id="periodFilter" onchange="filterActivities()">
+              <option value="today">Hari Ini</option>
+              <option value="week">Minggu Ini</option>
+              <option value="month">Bulan Ini</option>
+              <option value="all">Semua Waktu</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="activity-container" id="activityContainer">
+          <!-- Activity log akan dimuat di sini melalui JavaScript -->
+          <div class="loading-activity">
+            ⏳
+            <p>Memuat log aktivitas...</p>
+          </div>
+        </div>
+      </section>
+
       <!-- Search and Controls -->
       <section class="controls-section">
         <div class="search-container">
-          <h3><i class="fas fa-search"></i> Cari Pelanggan</h3>
+          <h3>🔍 Cari Pelanggan</h3>
           <div class="search-box">
             <input
               type="text"
@@ -158,12 +211,11 @@
               class="btn-clear"
               onclick="clearSearch()"
             >
-              <i class="fas fa-times"></i>
+              ❌
             </button>
           </div>
           <p class="search-hint">
-            <i class="fas fa-info-circle"></i>
-            Ketik nomor WhatsApp untuk mencari pelanggan secara real-time
+            ℹ️ Ketik nomor WhatsApp untuk mencari pelanggan secara real-time
           </p>
         </div>
       </section>
@@ -171,10 +223,13 @@
       <!-- Members List -->
       <section class="members-section">
         <div class="section-header">
-          <h3><i class="fas fa-id-card"></i> Daftar Kartu Member</h3>
+          <h3>🆔 Daftar Kartu Member</h3>
           <div class="section-actions">
             <button class="btn btn-refresh" onclick="loadMembers()">
               Refresh
+            </button>
+            <button class="btn btn-download-csv" onclick="downloadMembersCSV()">
+              ⬇️ Download CSV
             </button>
             <button
               class="btn btn-create-admin"
@@ -182,13 +237,19 @@
             >
               Buat Admin Baru
             </button>
+            <button
+              class="btn btn-delete-admin"
+              onclick="showDeleteAdminModal()"
+            >
+              Hapus Admin
+            </button>
           </div>
         </div>
 
         <div class="members-container" id="membersContainer">
           <!-- Members akan dimuat di sini melalui JavaScript -->
           <div class="loading-members">
-            <i class="fas fa-spinner fa-spin"></i>
+            ⏳
             <p>Memuat data pelanggan...</p>
           </div>
         </div>
@@ -199,7 +260,7 @@
     <div class="modal" id="memberModal">
       <div class="modal-content modal-large">
         <div class="modal-header">
-          <h3><i class="fas fa-user-edit"></i> Detail Member</h3>
+          <h3>✏️ Detail Member</h3>
           <button class="close-modal" onclick="closeMemberModal()">
             &times;
           </button>
@@ -216,6 +277,14 @@
                 <span id="modalWhatsapp">-</span>
               </div>
               <div class="info-item">
+                <label>Email:</label>
+                <span id="modalEmail">-</span>
+              </div>
+              <div class="info-item">
+                <label>Alamat:</label>
+                <span id="modalAlamat">-</span>
+              </div>
+              <div class="info-item">
                 <label>Umur:</label>
                 <span id="modalUmur">-</span>
               </div>
@@ -228,10 +297,6 @@
                 <span id="modalJenisKartu">-</span>
               </div>
               <div class="info-item">
-                <label>Kode Unik:</label>
-                <span id="modalKodeUnik">-</span>
-              </div>
-              <div class="info-item">
                 <label>Tanggal Berlaku:</label>
                 <span id="modalTanggalBerlaku">-</span>
               </div>
@@ -242,7 +307,7 @@
             </div>
 
             <div class="transaction-section">
-              <h4><i class="fas fa-shopping-cart"></i> Manajemen Transaksi</h4>
+              <h4>🛒 Manajemen Transaksi</h4>
               <div class="transaction-controls">
                 <div class="current-transactions">
                   <label>Jumlah Pembelian Saat Ini:</label>
@@ -287,7 +352,7 @@
     <div class="modal" id="createAdminModal">
       <div class="modal-content">
         <div class="modal-header">
-          <h3><i class="fas fa-user-plus"></i> Buat Admin Baru</h3>
+          <h3>➕ Buat Admin Baru</h3>
           <button class="close-modal" onclick="closeCreateAdminModal()">
             &times;
           </button>
@@ -317,13 +382,136 @@
       </div>
     </div>
 
+    <!-- Delete Admin Modal -->
+    <div class="modal" id="deleteAdminModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>➖ Hapus Admin</h3>
+          <button class="close-modal" onclick="closeDeleteAdminModal()">
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="admin-list-container">
+            <p class="warning-text">
+              ⚠️ Pilih admin yang ingin dihapus. Hati-hati, aksi ini tidak dapat
+              dibatalkan!
+            </p>
+            <div class="admin-list" id="adminList">
+              <!-- Admin list akan dimuat di sini -->
+              <div class="loading-admins">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Memuat daftar admin...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Registration Filter Modal -->
+    <div class="modal" id="registrationModal">
+      <div class="modal-content modal-large">
+        <div class="modal-header">
+          <h3>👤 Data Pendaftar</h3>
+          <button class="close-modal" onclick="closeRegistrationModal()">
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="filter-section">
+            <div class="filter-buttons">
+              <button
+                class="btn filter-btn active"
+                data-filter="today"
+                onclick="filterRegistrations('today')"
+              >
+                Hari Ini
+              </button>
+              <button
+                class="btn filter-btn"
+                data-filter="week"
+                onclick="filterRegistrations('week')"
+              >
+                Minggu Ini
+              </button>
+              <button
+                class="btn filter-btn"
+                data-filter="month"
+                onclick="filterRegistrations('month')"
+              >
+                Bulan Ini
+              </button>
+            </div>
+            <div class="filter-summary">
+              <h4 id="registrationSummary">Pendaftar Hari Ini: 0 orang</h4>
+            </div>
+          </div>
+          <div class="registration-list" id="registrationList">
+            <!-- Registration list akan dimuat di sini -->
+            <div class="loading-data">
+              ⏳
+              <p>Memuat data pendaftar...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transaction Filter Modal -->
+    <div class="modal" id="transactionModal">
+      <div class="modal-content modal-large">
+        <div class="modal-header">
+          <h3>🛒 Data Transaksi</h3>
+          <button class="close-modal" onclick="closeTransactionModal()">
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="filter-section">
+            <div class="filter-buttons">
+              <button
+                class="btn filter-btn active"
+                data-filter="today"
+                onclick="filterTransactions('today')"
+              >
+                Hari Ini
+              </button>
+              <button
+                class="btn filter-btn"
+                data-filter="week"
+                onclick="filterTransactions('week')"
+              >
+                Minggu Ini
+              </button>
+              <button
+                class="btn filter-btn"
+                data-filter="month"
+                onclick="filterTransactions('month')"
+              >
+                Bulan Ini
+              </button>
+            </div>
+            <div class="filter-summary">
+              <h4 id="transactionSummary">Total Transaksi Hari Ini: 0</h4>
+            </div>
+          </div>
+          <div class="transaction-list" id="transactionList">
+            <!-- Transaction list akan dimuat di sini -->
+            <div class="loading-data">
+              ⏳
+              <p>Memuat data transaksi...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Confirmation Modal -->
     <div class="modal" id="confirmModal">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 id="confirmTitle">
-            <i class="fas fa-question-circle"></i> Konfirmasi
-          </h3>
+          <h3 id="confirmTitle">❓ Konfirmasi</h3>
           <button class="close-modal" onclick="closeConfirmModal()">
             &times;
           </button>
@@ -332,10 +520,10 @@
           <p id="confirmMessage">Apakah Anda yakin?</p>
           <div class="confirm-actions">
             <button class="btn btn-cancel" onclick="closeConfirmModal()">
-              <i class="fas fa-times"></i> Batal
+              ❌ Batal
             </button>
             <button class="btn btn-confirm" id="confirmBtn">
-              <i class="fas fa-check"></i> Ya, Lanjutkan
+              ✅ Ya, Lanjutkan
             </button>
           </div>
         </div>
@@ -346,7 +534,7 @@
     <div class="modal" id="alertModal">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 id="alertTitle"><i class="fas fa-info-circle"></i> Informasi</h3>
+          <h3 id="alertTitle">ℹ️ Informasi</h3>
           <button class="close-modal" onclick="closeAlert()">&times;</button>
         </div>
         <div class="modal-body">
@@ -358,7 +546,7 @@
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
       <div class="loading-spinner">
-        <i class="fas fa-spinner fa-spin"></i>
+        ⏳
         <p>Memproses...</p>
       </div>
     </div>
