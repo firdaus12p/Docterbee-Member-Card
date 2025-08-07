@@ -398,9 +398,9 @@ Anda dapat mengubah breakpoint dan nilai-nilai berikut sesuai kebutuhan
 }
 
 /* TABLET SIZE - Layar medium (max-width: 768px) */
-@media (max-width: 768px) {
+@media (max-width: 1080px) {
   .card-wrapper {
-    max-width: 768px; /* Lebar maksimal kartu di tablet - DIPERBESAR untuk mengatasi text wrapping */
+    max-width: 100%; /* Lebar maksimal kartu di tablet - DIPERBESAR untuk mengatasi text wrapping */
   }
 
   .card-content,
@@ -417,19 +417,19 @@ Anda dapat mengubah breakpoint dan nilai-nilai berikut sesuai kebutuhan
 
   /* Penyesuaian positioning spesifik untuk setiap kartu di tablet */
   .active-worker-bg .card-content .member-info {
-    right: 2%; /* PERBAIKAN: Gunakan right untuk alignment right agar posisi kanan tetap */
+    right: 5%; /* PERBAIKAN: Gunakan right untuk alignment right agar posisi kanan tetap */
   }
 
   .family-member-bg .card-content .member-info {
-    right: 1%; /* Posisi lebih dekat ke kanan di tablet */
+    right: 7%; /* Posisi lebih dekat ke kanan di tablet */
   }
 
   .healthy-smart-kids-bg .card-content .member-info {
-    right: 2%; /* PERBAIKAN: Gunakan right untuk alignment right agar posisi kanan tetap */
+    right: 10%; /* PERBAIKAN: Gunakan right untuk alignment right agar posisi kanan tetap */
   }
 
   .mums-baby-bg .card-content .member-info {
-    left: 55%; /* Posisi disesuaikan untuk tablet */
+    left: 5%; /* Posisi disesuaikan untuk tablet */
   }
 
   .new-couple-bg .card-content .member-info {
@@ -437,7 +437,7 @@ Anda dapat mengubah breakpoint dan nilai-nilai berikut sesuai kebutuhan
   }
 
   .pregnant-preparation-bg .card-content .member-info {
-    left: 50%; /* Posisi disesuaikan untuk tablet */
+    left: 6%; /* Posisi disesuaikan untuk tablet */
   }
 
   .senja-ceria-bg .card-content .member-info {

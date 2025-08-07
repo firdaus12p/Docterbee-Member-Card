@@ -632,6 +632,21 @@ Komentar: Pengaturan ukuran kartu - ubah nilai berikut untuk menyesuaikan ukuran
     max-width: 400px; /* Ukuran kartu untuk tablet landscape */
   }
 
+  /* Responsive button text untuk tablet landscape */
+  .btn {
+    font-size: 0.85em; /* Ukuran font lebih kecil untuk tablet landscape */
+    padding: 11px 1px; /* Padding disesuaikan */
+    min-width: 110px; /* Minimum width yang lebih kecil untuk tablet */
+    white-space: nowrap; /* Tetap mencegah text wrapping */
+    overflow: hidden; /* Cegah overflow */
+    text-overflow: ellipsis; /* Tambahkan ellipsis jika teks terlalu panjang */
+  }
+
+  .btn-whatsapp {
+    min-width: 130px; /* Minimum width disesuaikan untuk tablet */
+    font-size: 0.85em; /* Ukuran font disesuaikan */
+  }
+
   /* Responsive tombol admin untuk tablet landscape */
   .btn-admin {
     padding: 10px 18px;
@@ -659,11 +674,15 @@ Komentar: Pengaturan ukuran kartu - ubah nilai berikut untuk menyesuaikan ukuran
 
   .form-actions {
     flex-direction: column; /* Stack tombol vertikal di tablet */
+    gap: 12px; /* Jarak antar tombol di tablet */
   }
 
   .btn {
     flex: none;
     width: 100%; /* Tombol full width di tablet */
+    font-size: 0.9em; /* Ukuran font sedikit lebih kecil untuk tablet */
+    padding: 14px 16px; /* Padding disesuaikan untuk tablet */
+    text-align: center; /* Pastikan teks di tengah */
   }
 
   .container {

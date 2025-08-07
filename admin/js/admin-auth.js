@@ -143,6 +143,7 @@ class AdminAuth {
         localStorage.setItem(
           "docterbee_admin_session",
           JSON.stringify({
+            id: result.admin.id,
             username: result.admin.username,
             loginTime: new Date().getTime(),
           })

@@ -11,8 +11,10 @@ CREATE TABLE IF NOT EXISTS members (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nama VARCHAR(255) NOT NULL COMMENT 'Nama lengkap anggota',
     whatsapp VARCHAR(20) NOT NULL COMMENT 'Nomor WhatsApp anggota',
+    email VARCHAR(255) NOT NULL COMMENT 'Email anggota',
+    alamat TEXT NOT NULL COMMENT 'Alamat lengkap anggota',
     umur INT NOT NULL COMMENT 'Umur anggota',
-    kegiatan VARCHAR(255) NOT NULL COMMENT 'Kegiatan/profesi anggota',
+    kegiatan VARCHAR(255) NOT NULL COMMENT 'Kegiatan atau profesi anggota',
     jenis_kartu ENUM('active_worker', 'family_member', 'healthy_smart_kids', 'mums_baby', 'new_couple', 'pregnant_preparation', 'senja_ceria') NOT NULL COMMENT 'Jenis kartu anggota',
     kode_unik VARCHAR(50) UNIQUE NOT NULL COMMENT 'Kode unik untuk setiap kartu',
     tanggal_berlaku VARCHAR(100) NOT NULL COMMENT 'Tanggal berlaku kartu',
@@ -23,6 +25,10 @@ CREATE TABLE IF NOT EXISTS members (
     -- Indexes for better performance
     INDEX idx_kode_unik (kode_unik),
     INDEX idx_whatsapp (whatsapp),
+    INDEX idx_email (email),
+    INDEX idx_alamat (alamat(100)),
+    INDEX idx_umur (umur),
+    INDEX idx_kegiatan (kegiatan),
     INDEX idx_jenis_kartu (jenis_kartu),
     INDEX idx_created_at (created_at),
     INDEX idx_jumlah_pembelian (jumlah_pembelian)
@@ -59,16 +65,41 @@ CREATE TABLE IF NOT EXISTS activity_log (
     INDEX idx_created_at (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Log aktivitas sistem';
 
--- Insert sample admin user (password: admin123)
+-- Create admin activity log table for admin monitoring
+CREATE TABLE IF NOT EXISTS admin_activity_log (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    admin_id INT NOT NULL COMMENT 'ID admin yang melakukan aktivitas',
+    admin_name VARCHAR(100) NOT NULL COMMENT 'Nama admin yang melakukan aktivitas',
+    activity_type ENUM('login', 'member_add', 'member_edit', 'member_delete', 'admin_create', 'admin_delete', 'transaction', 'download') NOT NULL COMMENT 'Jenis aktivitas',
+    title VARCHAR(255) NOT NULL COMMENT 'Judul aktivitas',
+    description TEXT COMMENT 'Deskripsi aktivitas',
+    details JSON COMMENT 'Detail aktivitas dalam format JSON',
+    ip_address VARCHAR(45) COMMENT 'IP address admin',
+    user_agent TEXT COMMENT 'User agent admin',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'Waktu aktivitas',
+    
+    INDEX idx_admin_id (admin_id),
+    INDEX idx_activity_type (activity_type),
+    INDEX idx_created_at (created_at),
+    INDEX idx_admin_activity (admin_id, activity_type, created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Log aktivitas admin';
+
+-- Insert sample admin user (password: adminku321)
 -- CATATAN: Ganti password ini di production!
 INSERT IGNORE INTO admin_users (username, password_hash, email, role) 
-VALUES ('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin@memberdocterbee.site', 'admin');
+VALUES ('adminku', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin@memberdocterbee.site', 'admin');
 
 -- Sample data (optional - remove in production)
-INSERT IGNORE INTO members (nama, whatsapp, umur, kegiatan, jenis_kartu, kode_unik, tanggal_berlaku) VALUES
-('John Doe', '08123456789', 25, 'Mahasiswa', 'active_worker', '1234567890123456789', 'VALID July 2025 - July 2030'),
-('Jane Smith', '08234567890', 30, 'Pekerja', 'family_member', '2345678901234567890', 'VALID July 2025 - July 2030'),
-('Bob Johnson', '08345678901', 22, 'Freelancer', 'healthy_smart_kids', '3456789012345678901', 'VALID July 2025 - July 2030');
+INSERT IGNORE INTO members (nama, whatsapp, email, alamat, umur, kegiatan, jenis_kartu, kode_unik, tanggal_berlaku) VALUES
+('John Doe', '08123456789', 'john@email.com', 'Jl. Contoh No. 123, Jakarta', 25, 'Karyawan Swasta', 'active_worker', '1234567890123456789', 'VALID July 2025 - July 2030'),
+('Jane Smith', '08234567890', 'jane@email.com', 'Jl. Sample No. 456, Bandung', 30, 'Ibu Rumah Tangga', 'family_member', '2345678901234567890', 'VALID July 2025 - July 2030'),
+('Bob Johnson', '08345678901', 'bob@email.com', 'Jl. Test No. 789, Surabaya', 22, 'Mahasiswa', 'healthy_smart_kids', '3456789012345678901', 'VALID July 2025 - July 2030');
+
+-- Add kegiatan column if it doesn't exist (for existing databases)
+ALTER TABLE members ADD COLUMN IF NOT EXISTS kegiatan VARCHAR(255) NOT NULL DEFAULT '' COMMENT 'Kegiatan atau profesi anggota' AFTER umur;
+
+-- Add index for kegiatan column if it doesn't exist
+ALTER TABLE members ADD INDEX IF NOT EXISTS idx_kegiatan (kegiatan);
 
 -- Create views for reporting (optional)
 CREATE OR REPLACE VIEW member_statistics AS

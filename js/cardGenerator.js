@@ -48,24 +48,14 @@ class CardGenerator {
       this.updateCardType(e.target.value);
     });
 
-    // Perbarui preview ketika data form berubah
-    const formInputs = ["nama", "kodeUnik"];
+    // Perbarui preview ketika data form berubah - tambahkan field whatsapp
+    const formInputs = ["nama", "whatsapp"];
     formInputs.forEach((fieldId) => {
       const field = document.getElementById(fieldId);
       if (field) {
         field.addEventListener("input", () => this.updatePreview());
       }
     });
-  }
-
-  generateUniqueCode(phoneNumber) {
-    if (!phoneNumber) return "";
-
-    // Generate kode acak 4 digit
-    const randomCode = Math.floor(1000 + Math.random() * 9000);
-
-    // Gabungkan dengan nomor telepon
-    return `${randomCode}${phoneNumber}`;
   }
 
   updateCardType(cardType) {
@@ -91,14 +81,15 @@ class CardGenerator {
 
   updatePreview() {
     const nama = document.getElementById("nama").value || "Nama Anggota";
-    const kodeUnik = document.getElementById("kodeUnik").value || "XXXX-XXXX";
+    const whatsapp =
+      document.getElementById("whatsapp").value || "08xxxxxxxxxx";
     const tanggalBerlaku =
       document.getElementById("tanggalBerlaku").value ||
-      "VALID July 2025 - July 2030";
+      "VALID August 2025 - August 2030";
 
-    // Perbarui elemen preview
+    // Perbarui elemen preview - tampilkan nomor WhatsApp tanpa label "Kode:"
     document.getElementById("previewNama").textContent = nama;
-    document.getElementById("previewKode").textContent = `Kode: ${kodeUnik}`;
+    document.getElementById("previewKode").textContent = whatsapp;
     document.getElementById("previewTanggal").textContent = tanggalBerlaku;
   }
 
@@ -109,10 +100,6 @@ class CardGenerator {
       alert("Mohon isi nomor WhatsApp terlebih dahulu!");
       return false;
     }
-
-    // Generate kode unik
-    const uniqueCode = this.generateUniqueCode(whatsapp);
-    document.getElementById("kodeUnik").value = uniqueCode;
 
     // Perbarui tanggal berlaku
     const now = new Date();
@@ -137,16 +124,23 @@ class CardGenerator {
     return {
       nama: document.getElementById("nama").value,
       whatsapp: document.getElementById("whatsapp").value,
+      email: document.getElementById("email").value,
+      alamat: document.getElementById("alamat").value,
       umur: document.getElementById("umur").value,
       kegiatan: document.getElementById("kegiatan").value,
       jenisKartu: document.getElementById("jenisKartu").value,
-      kodeUnik: document.getElementById("kodeUnik").value,
       tanggalBerlaku: document.getElementById("tanggalBerlaku").value,
     };
   }
 
   validateForm() {
-    const requiredFields = ["nama", "whatsapp", "kegiatan", "jenisKartu"];
+    const requiredFields = [
+      "nama",
+      "whatsapp",
+      "alamat",
+      "kegiatan",
+      "jenisKartu",
+    ];
 
     for (let fieldId of requiredFields) {
       const field = document.getElementById(fieldId);
@@ -169,12 +163,6 @@ class CardGenerator {
         "Umur harus antara 1-120 tahun (atau kosongkan jika tidak ingin mencantumkan)"
       );
       umurField.focus();
-      return false;
-    }
-
-    const kodeUnik = document.getElementById("kodeUnik").value;
-    if (!kodeUnik) {
-      alert("Mohon generate kartu terlebih dahulu!");
       return false;
     }
 

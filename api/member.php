@@ -76,7 +76,6 @@ class MemberManager {
             nama VARCHAR(255) NOT NULL,
             whatsapp VARCHAR(20) NOT NULL,
             umur INT NOT NULL,
-            kegiatan VARCHAR(255) NOT NULL,
             jenis_kartu ENUM('active_worker', 'family_member', 'healthy_smart_kids', 'mums_baby', 'new_couple', 'pregnant_preparation', 'senja_ceria') NOT NULL,
             kode_unik VARCHAR(50) UNIQUE NOT NULL,
             tanggal_berlaku VARCHAR(100) NOT NULL,
@@ -113,7 +112,7 @@ class MemberManager {
     
     public function saveMember($data) {
         // Validate required fields
-        $required_fields = ['nama', 'whatsapp', 'umur', 'kegiatan', 'jenisKartu', 'kodeUnik', 'tanggalBerlaku'];
+        $required_fields = ['nama', 'whatsapp', 'alamat', 'jenisKartu', 'tanggalBerlaku'];
         foreach ($required_fields as $field) {
             if (empty($data[$field])) {
                 throw new Exception("Field '$field' is required");
@@ -123,16 +122,23 @@ class MemberManager {
         // Sanitize input
         $nama = $this->sanitizeInput($data['nama']);
         $whatsapp = $this->sanitizeInput($data['whatsapp']);
-        $umur = (int)$data['umur'];
+        $email = $this->sanitizeInput($data['email']);
+        $alamat = $this->sanitizeInput($data['alamat']);
+        $umur = isset($data['umur']) && $data['umur'] !== '' ? (int)$data['umur'] : null;
         $kegiatan = $this->sanitizeInput($data['kegiatan']);
+        
         $jenis_kartu = $this->sanitizeInput($data['jenisKartu']);
-        $kode_unik = $this->sanitizeInput($data['kodeUnik']);
         $tanggal_berlaku = $this->sanitizeInput($data['tanggalBerlaku']);
         
+        // Generate unique code based on WhatsApp number
+        $kode_unik = $this->generateUniqueCode($whatsapp);
+        
         // Validate data
-        if ($umur < 1 || $umur > 120) {
+        if ($umur !== null && ($umur < 1 || $umur > 120)) {
             throw new Exception("Invalid age");
         }
+        
+        // Validate email format
         
         if (!in_array($jenis_kartu, ['active_worker', 'family_member', 'healthy_smart_kids', 'mums_baby', 'new_couple', 'pregnant_preparation', 'senja_ceria'])) {
             throw new Exception("Invalid card type");
@@ -168,13 +174,13 @@ class MemberManager {
         }
         
         // Insert into database
-        $stmt = $this->db->prepare("INSERT INTO members (nama, whatsapp, umur, kegiatan, jenis_kartu, kode_unik, tanggal_berlaku) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $this->db->prepare("INSERT INTO members (nama, whatsapp, email, alamat, umur, kegiatan, jenis_kartu, kode_unik, tanggal_berlaku) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         
         if (!$stmt) {
             throw new Exception("Prepare failed: " . $this->db->error);
         }
         
-        $stmt->bind_param("ssissss", $nama, $whatsapp, $umur, $kegiatan, $jenis_kartu, $kode_unik, $tanggal_berlaku);
+        $stmt->bind_param("ssssissss", $nama, $whatsapp, $email, $alamat, $umur, $kegiatan, $jenis_kartu, $kode_unik, $tanggal_berlaku);
         
         if (!$stmt->execute()) {
             throw new Exception("Execute failed: " . $stmt->error);
@@ -184,6 +190,26 @@ class MemberManager {
         $stmt->close();
         
         return $member_id;
+    }
+    
+    private function generateUniqueCode($whatsapp) {
+        // Generate unique code based on WhatsApp number and timestamp
+        $timestamp = time();
+        $clean_whatsapp = preg_replace('/\D/', '', $whatsapp);
+        
+        // Take last 4 digits of WhatsApp and combine with timestamp
+        $whatsapp_suffix = substr($clean_whatsapp, -4);
+        $time_suffix = substr($timestamp, -6);
+        
+        // Create a unique code
+        $unique_code = $whatsapp_suffix . $time_suffix . rand(100, 999);
+        
+        // Ensure uniqueness by checking database
+        while (!$this->isCodeUnique($unique_code)) {
+            $unique_code = $whatsapp_suffix . $time_suffix . rand(100, 999);
+        }
+        
+        return $unique_code;
     }
     
     public function isCodeUnique($code) {

@@ -85,46 +85,16 @@ class DatabaseManager {
     }
   }
 
+  // Fungsi ini sudah tidak diperlukan karena tidak ada kode unik lagi
+  // WhatsApp sudah unik sebagai identifier
   async checkCodeUnique(code) {
-    try {
-      const response = await fetch(this.apiEndpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Requested-With": "XMLHttpRequest",
-        },
-        body: JSON.stringify({
-          action: "check_code",
-          code: code,
-        }),
-      });
-
-      if (!response.ok) {
-        // Jika server tidak tersedia, periksa localStorage
-        return this.checkCodeInLocalStorage(code);
-      }
-
-      const result = await response.json();
-      return result.unique;
-    } catch (error) {
-      console.error("Error checking code uniqueness:", error);
-      return this.checkCodeInLocalStorage(code);
-    }
+    return true; // Selalu return true karena tidak ada pengecekan kode unik
   }
 
+  // Fungsi ini sudah tidak diperlukan karena tidak ada kode unik lagi
+  // WhatsApp sudah unik sebagai identifier
   checkCodeInLocalStorage(code) {
-    try {
-      const existingData = JSON.parse(
-        localStorage.getItem("docterbee_members") || "[]"
-      );
-      const codeExists = existingData.some(
-        (member) => member.kodeUnik === code
-      );
-      return !codeExists; // Kembalikan true jika unik (tidak ada)
-    } catch (error) {
-      console.error("LocalStorage check error:", error);
-      return true; // Anggap unik jika terjadi error
-    }
+    return true; // Selalu return true karena tidak ada pengecekan kode unik
   }
 
   async getAllMembers() {
@@ -277,10 +247,9 @@ class DatabaseManager {
     const required = [
       "nama",
       "whatsapp",
-      "umur",
+      "alamat",
       "kegiatan",
       "jenisKartu",
-      "kodeUnik",
     ];
 
     for (let field of required) {
@@ -295,10 +264,16 @@ class DatabaseManager {
       return { valid: false, message: "Format nomor WhatsApp tidak valid" };
     }
 
-    // Validasi umur
-    const age = parseInt(data.umur);
-    if (isNaN(age) || age < 1 || age > 120) {
-      return { valid: false, message: "Umur harus antara 1-120 tahun" };
+    // Validasi umur - bisa kosong atau valid
+    if (data.umur && data.umur.toString().trim() !== "") {
+      const age = parseInt(data.umur);
+      if (isNaN(age) || age < 1 || age > 120) {
+        return {
+          valid: false,
+          message:
+            "Umur harus antara 1-120 tahun atau kosongkan jika tidak ingin mencantumkan",
+        };
+      }
     }
 
     return { valid: true };

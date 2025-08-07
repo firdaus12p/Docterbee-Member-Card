@@ -11,6 +11,7 @@ class DocterBeeApp {
   initializeApp() {
     this.setupEventListeners();
     this.loadLibraries();
+    this.updateValidityDate(); // Set tanggal berlaku otomatis saat aplikasi dimuat
     console.log("DocterBee Membership Card App initialized");
   }
 
@@ -30,10 +31,6 @@ class DocterBeeApp {
   }
 
   setupEventListeners() {
-    // Tombol Generate Kartu
-    const generateBtn = document.getElementById("generateBtn");
-    generateBtn.addEventListener("click", () => this.handleGenerateCard());
-
     // Tombol Simpan Data
     const saveBtn = document.getElementById("saveBtn");
     saveBtn.addEventListener("click", () => this.handleSaveData());
@@ -89,7 +86,6 @@ class DocterBeeApp {
     const whatsappField = document.getElementById("whatsapp");
     const umurField = document.getElementById("umur");
     const namaField = document.getElementById("nama");
-    const kegiatanField = document.getElementById("kegiatan");
 
     // KEAMANAN: Sanitasi input nama untuk mencegah XSS
     namaField.addEventListener("input", (e) => {
@@ -100,17 +96,6 @@ class DocterBeeApp {
       // Batasi panjang nama maksimal 100 karakter
       if (value.length > 100) {
         value = value.substring(0, 100);
-      }
-      e.target.value = value;
-    });
-
-    // KEAMANAN: Sanitasi input kegiatan
-    kegiatanField.addEventListener("input", (e) => {
-      let value = e.target.value;
-      value = value.replace(/<[^>]*>/g, "");
-      value = value.replace(/[<>\"'&]/g, "");
-      if (value.length > 150) {
-        value = value.substring(0, 150);
       }
       e.target.value = value;
     });
@@ -175,15 +160,17 @@ class DocterBeeApp {
       e.target.value = value;
     });
 
-    // KEAMANAN: Validasi umur dengan batasan ketat
+    // KEAMANAN: Validasi umur dengan batasan ketat - izinkan field kosong
     umurField.addEventListener("input", (e) => {
       const value = parseInt(e.target.value);
-      if (isNaN(value) || value < 1) e.target.value = 1;
-      if (value > 120) e.target.value = 120;
+      // Hanya validasi jika ada nilai dan lebih dari 120
+      if (!isNaN(value) && value > 120) {
+        e.target.value = 120;
+      }
     });
 
-    // Aktifkan update preview real-time dengan debouncing
-    const previewFields = ["nama"];
+    // Aktifkan update preview real-time dengan debouncing untuk nama dan whatsapp
+    const previewFields = ["nama", "whatsapp"];
     previewFields.forEach((fieldId) => {
       const field = document.getElementById(fieldId);
       let timeoutId;
@@ -194,100 +181,6 @@ class DocterBeeApp {
         }, 300); // Debounce 300ms untuk performa
       });
     });
-  }
-
-  async handleGenerateCard() {
-    const generateBtn = document.getElementById("generateBtn");
-
-    // Nonaktifkan tombol untuk mencegah double-click
-    generateBtn.disabled = true;
-    generateBtn.innerHTML =
-      '<i class="fas fa-spinner fa-spin"></i> Generating...';
-
-    try {
-      // KEAMANAN: Validasi dan sanitasi input
-      const whatsapp = document.getElementById("whatsapp").value.trim();
-      const jenisKartu = document.getElementById("jenisKartu").value;
-      const nama = document.getElementById("nama").value.trim();
-      const umur = parseInt(document.getElementById("umur").value);
-      const kegiatan = document.getElementById("kegiatan").value.trim();
-
-      // Validasi panjang nama
-      if (nama.length < 2) {
-        alert("Nama harus minimal 2 karakter!");
-        return;
-      }
-
-      if (nama.length > 100) {
-        alert("Nama terlalu panjang! Maksimal 100 karakter.");
-        return;
-      }
-
-      // Validasi nomor WhatsApp dengan pattern yang ketat
-      if (!whatsapp) {
-        alert("Mohon isi nomor WhatsApp terlebih dahulu!");
-        return;
-      }
-
-      const whatsappPattern = /^(0|62)[0-9]{9,14}$/;
-      if (!whatsappPattern.test(whatsapp)) {
-        alert(
-          "Format nomor WhatsApp tidak valid! Gunakan format 08xx atau 62xx"
-        );
-        return;
-      }
-
-      if (!jenisKartu) {
-        alert("Mohon pilih jenis kartu terlebih dahulu!");
-        return;
-      }
-
-      // Validasi umur
-      if (isNaN(umur) || umur < 1 || umur > 120) {
-        alert("Umur harus antara 1-120 tahun!");
-        return;
-      }
-
-      // Validasi kegiatan
-      if (kegiatan.length < 2) {
-        alert("Kegiatan harus minimal 2 karakter!");
-        return;
-      }
-
-      // Generate unique code and check uniqueness
-      let isUnique = false;
-      let attempts = 0;
-      let uniqueCode = "";
-
-      while (!isUnique && attempts < 10) {
-        uniqueCode = this.cardGenerator.generateUniqueCode(whatsapp);
-        isUnique = await this.databaseManager.checkCodeUnique(uniqueCode);
-        attempts++;
-      }
-
-      if (!isUnique) {
-        alert("Gagal membuat kode unik. Silakan coba lagi.");
-        return;
-      }
-
-      // Set the unique code
-      document.getElementById("kodeUnik").value = uniqueCode;
-
-      // Update validity date
-      this.updateValidityDate();
-
-      // Generate and update preview
-      if (this.cardGenerator.generateCard()) {
-        this.showSuccessNotification("Kartu berhasil digenerate!");
-      }
-    } catch (error) {
-      console.error("Error generating card:", error);
-      alert("Terjadi kesalahan saat membuat kartu. Silakan coba lagi.");
-    } finally {
-      // Re-enable button
-      generateBtn.disabled = false;
-      generateBtn.innerHTML = '<i class="fas fa-magic"></i> Generate Kartu';
-    }
   }
 
   updateValidityDate() {
@@ -313,6 +206,13 @@ class DocterBeeApp {
 
     try {
       const memberData = this.cardGenerator.getCardData();
+
+      // Set tanggal berlaku otomatis jika belum ada
+      if (!memberData.tanggalBerlaku) {
+        this.updateValidityDate();
+        memberData.tanggalBerlaku =
+          document.getElementById("tanggalBerlaku").value;
+      }
 
       // Validate data
       const validation = this.databaseManager.validateMemberData(memberData);
@@ -355,6 +255,13 @@ class DocterBeeApp {
 
     try {
       const memberData = this.cardGenerator.getCardData();
+
+      // Set tanggal berlaku otomatis jika belum ada
+      if (!memberData.tanggalBerlaku) {
+        this.updateValidityDate();
+        memberData.tanggalBerlaku =
+          document.getElementById("tanggalBerlaku").value;
+      }
 
       // Try html2canvas method first
       let success = false;
@@ -436,9 +343,7 @@ class DocterBeeApp {
         this.fillFormWithMemberData(member);
         this.showSearchResult(
           "found",
-          `Data ditemukan! Nama: ${member.nama} | Kode: ${
-            member.kode_unik || member.kodeUnik
-          }`
+          `Data ditemukan! Nama: ${member.nama} | WhatsApp: ${member.whatsapp}`
         );
 
         // Generate kartu dengan data yang ditemukan (dengan delay untuk UX yang lebih baik)
@@ -476,14 +381,11 @@ class DocterBeeApp {
       const fieldMapping = {
         nama: member.nama || "",
         whatsapp: member.whatsapp || "",
+        email: member.email || "",
+        alamat: member.alamat || "",
         umur: member.umur || "",
         kegiatan: member.kegiatan || "",
         jenisKartu: member.jenis_kartu || member.jenisKartu || "",
-        kodeUnik: member.kode_unik || member.kodeUnik || "",
-        tanggalBerlaku:
-          member.tanggal_berlaku ||
-          member.tanggalBerlaku ||
-          "VALID July 2025 - July 2030",
       };
 
       // Isi setiap field form dengan data yang ditemukan
@@ -494,9 +396,20 @@ class DocterBeeApp {
         }
       });
 
-      // Aktifkan tombol-tombol yang diperlukan setelah data dimuat
+      // Set tanggal berlaku dari data member atau generate baru sesuai bulan saat ini
+      const tanggalBerlaku = member.tanggal_berlaku || member.tanggalBerlaku;
+      if (tanggalBerlaku) {
+        document.getElementById("tanggalBerlaku").value = tanggalBerlaku;
+      } else {
+        this.updateValidityDate(); // Generate tanggal berlaku baru sesuai bulan saat ini
+      }
+
+      // Aktifkan tombol-tombol yang diperlukan setelah data dimuat dan update preview
       document.getElementById("saveBtn").disabled = false;
       document.getElementById("downloadBtn").disabled = false;
+
+      // Update preview kartu dengan data yang dimuat
+      this.cardGenerator.updatePreview();
 
       console.log("Form berhasil diisi dengan data member:", member.nama);
     } catch (error) {
@@ -611,10 +524,8 @@ class DocterBeeApp {
       // Reset semua input dalam form
       form.reset();
 
-      // Reset field readonly ke nilai default
-      document.getElementById("kodeUnik").value = "";
-      document.getElementById("tanggalBerlaku").value =
-        "VALID July 2025 - July 2030";
+      // Set tanggal berlaku sesuai bulan saat ini
+      this.updateValidityDate();
 
       // Disable tombol yang memerlukan data valid
       document.getElementById("saveBtn").disabled = true;
