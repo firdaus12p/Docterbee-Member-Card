@@ -157,10 +157,17 @@ class AdminDashboard {
 
     // Calculate today registrations from loaded member data
     const today = new Date();
-    const todayStr = today.toISOString().split("T")[0]; // YYYY-MM-DD format
+    // Gunakan timezone user untuk mendapatkan tanggal hari ini
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const todayStr = today.toLocaleDateString("en-CA", {
+      timeZone: userTimeZone,
+    }); // Format YYYY-MM-DD
     const todayRegistrations = this.allMembers.filter((member) => {
       const memberDate = new Date(member.created_at);
-      const memberDateStr = memberDate.toISOString().split("T")[0];
+      // Konversi member date ke timezone user juga
+      const memberDateStr = memberDate.toLocaleDateString("en-CA", {
+        timeZone: userTimeZone,
+      });
       return memberDateStr === todayStr;
     }).length;
 
@@ -303,7 +310,14 @@ class AdminDashboard {
   createMemberCard(member) {
     const cardTypeName = this.getCardTypeName(member.jenis_kartu);
     const badgeClass = `badge-${member.jenis_kartu}`;
-    const createdAt = new Date(member.created_at).toLocaleDateString("id-ID");
+    // Format tanggal dengan timezone user
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const createdAt = new Date(member.created_at).toLocaleDateString("id-ID", {
+      timeZone: userTimeZone,
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
 
     return `
             <div class="member-card" onclick="adminDashboard.showMemberModal(${
@@ -413,7 +427,12 @@ class AdminDashboard {
       member.tanggal_berlaku;
     document.getElementById("modalCreatedAt").textContent = new Date(
       member.created_at
-    ).toLocaleDateString("id-ID");
+    ).toLocaleDateString("id-ID", {
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
     document.getElementById("modalJumlahPembelian").textContent =
       parseInt(member.jumlah_pembelian) || 0;
 
@@ -1015,12 +1034,16 @@ class AdminDashboard {
             <div><strong>Email:</strong> ${admin.email || "-"}</div>
             <div><strong>Terakhir Login:</strong> ${
               admin.last_login
-                ? new Date(admin.last_login).toLocaleString("id-ID")
+                ? new Date(admin.last_login).toLocaleString("id-ID", {
+                    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                  })
                 : "Belum pernah"
             }</div>
             <div><strong>Dibuat:</strong> ${new Date(
               admin.created_at
-            ).toLocaleString("id-ID")}</div>
+            ).toLocaleString("id-ID", {
+              timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            })}</div>
           </div>
           <div class="admin-actions">
             <button 
@@ -1206,7 +1229,12 @@ class AdminDashboard {
 
   getFilteredData(period) {
     const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    // Gunakan timezone user untuk filter yang akurat
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const todayStr = now.toLocaleDateString("en-CA", {
+      timeZone: userTimeZone,
+    });
+    const today = new Date(todayStr + "T00:00:00");
 
     let startDate;
 
@@ -1228,7 +1256,13 @@ class AdminDashboard {
 
     return this.allMembers.filter((member) => {
       const memberDate = new Date(member.created_at);
-      return memberDate >= startDate;
+      // Konversi member date ke timezone user
+      const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const memberDateStr = memberDate.toLocaleDateString("en-CA", {
+        timeZone: userTimeZone,
+      });
+      const memberDateOnly = new Date(memberDateStr + "T00:00:00");
+      return memberDateOnly >= startDate;
     });
   }
 
@@ -1267,12 +1301,15 @@ class AdminDashboard {
     const registrationHTML = sortedMembers
       .map((member) => {
         const registrationDate = new Date(member.created_at);
+        const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const formattedDate = registrationDate.toLocaleDateString("id-ID", {
+          timeZone: userTimeZone,
           day: "2-digit",
           month: "2-digit",
           year: "numeric",
         });
         const formattedTime = registrationDate.toLocaleTimeString("id-ID", {
+          timeZone: userTimeZone,
           hour: "2-digit",
           minute: "2-digit",
         });
@@ -1330,7 +1367,10 @@ class AdminDashboard {
     const transactionHTML = sortedMembers
       .map((member) => {
         const registrationDate = new Date(member.created_at);
+        // Gunakan timezone user device alih-alih timezone Asia/Makassar yang tetap
+        const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const formattedDate = registrationDate.toLocaleDateString("id-ID", {
+          timeZone: userTimeZone,
           day: "2-digit",
           month: "2-digit",
           year: "numeric",
@@ -1668,7 +1708,11 @@ class AdminDashboard {
 
   createActivityHTML(activity) {
     const date = new Date(activity.created_at);
+    // Gunakan timezone user device alih-alih timezone Asia/Makassar yang tetap
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
     const timeString = date.toLocaleString("id-ID", {
+      timeZone: userTimeZone,
       year: "numeric",
       month: "short",
       day: "numeric",

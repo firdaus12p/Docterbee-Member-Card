@@ -1,5 +1,9 @@
 <?php
 // Script untuk mengecek dan membuat tabel admin_activity_log jika belum ada
+
+// Set timezone ke UTC+8 untuk konsistensi global
+date_default_timezone_set('UTC+8');
+
 require_once '../config/config.php';
 
 try {

@@ -66,11 +66,11 @@ class DatabaseManager {
         localStorage.getItem("docterbee_members") || "[]"
       );
 
-      // Tambah anggota baru dengan timestamp
+      // Tambah anggota baru dengan timestamp UTC (konsisten dengan backend)
       const newMember = {
         ...memberData,
         id: Date.now(),
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().toISOString(), // Gunakan UTC standar
         synced: false,
       };
 
@@ -244,13 +244,7 @@ class DatabaseManager {
   }
 
   validateMemberData(data) {
-    const required = [
-      "nama",
-      "whatsapp",
-      "alamat",
-      "kegiatan",
-      "jenisKartu",
-    ];
+    const required = ["nama", "whatsapp", "alamat", "kegiatan", "jenisKartu"];
 
     for (let field of required) {
       if (!data[field] || data[field].toString().trim() === "") {

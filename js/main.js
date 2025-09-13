@@ -184,8 +184,13 @@ class DocterBeeApp {
   }
 
   updateValidityDate() {
+    // Gunakan timezone user
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const now = new Date();
-    const currentMonth = now.toLocaleString("en-US", { month: "long" });
+    const currentMonth = now.toLocaleString("en-US", {
+      month: "long",
+      timeZone: userTimeZone,
+    });
     const currentYear = now.getFullYear();
     const expiryYear = currentYear + 5;
 
@@ -593,9 +598,11 @@ class DocterBeeApp {
 
     const a = document.createElement("a");
     a.href = url;
-    a.download = `docterbee_members_${
-      new Date().toISOString().split("T")[0]
-    }.json`;
+    // Gunakan timezone user untuk nama file
+    const now = new Date();
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const dateStr = now.toLocaleDateString("en-CA", { timeZone: userTimeZone }); // Format YYYY-MM-DD
+    a.download = `docterbee_members_${dateStr}.json`;
     a.click();
 
     URL.revokeObjectURL(url);

@@ -2,6 +2,9 @@
 // File untuk membuat admin default di hosting
 header('Content-Type: application/json');
 
+// Set timezone ke UTC+8 untuk konsistensi global
+date_default_timezone_set('UTC+8');
+
 // Load konfigurasi database
 $config = require_once '../config/config.php';
 $db_config = $config['database'];
@@ -20,7 +23,10 @@ try {
     }
     
     $connection->set_charset("utf8mb4");
-    
+
+    // Set timezone database ke UTC+8 untuk konsistensi waktu global
+    $connection->query("SET time_zone = '+08:00'");
+
     // Buat tabel admin_users jika belum ada
     $sql = "CREATE TABLE IF NOT EXISTS admin_users (
         id INT AUTO_INCREMENT PRIMARY KEY,

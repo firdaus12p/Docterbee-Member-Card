@@ -2,6 +2,9 @@
 // API untuk Admin Dashboard DocterBee dengan keamanan CORS yang ditingkatkan
 header('Content-Type: application/json');
 
+// Set timezone ke UTC+8 untuk konsistensi global
+date_default_timezone_set('UTC+8');
+
 // Load config untuk mendapatkan allowed origins
 $config = require_once '../config/config.php';
 $allowed_origins = $config['security']['allowed_origins'] ?? ['*'];
@@ -45,7 +48,10 @@ class AdminDatabaseConnection {
             }
             
             $this->connection->set_charset("utf8mb4");
-            
+
+            // Set timezone database ke UTC+8 untuk konsistensi waktu global
+            $this->connection->query("SET time_zone = '+08:00'");
+
         } catch (Exception $e) {
             error_log("Database connection error: " . $e->getMessage());
             throw $e;
@@ -425,6 +431,7 @@ class AdminMemberManager {
             'Email',
             'Alamat',
             'Umur',
+            'Kegiatan',
             'Jenis Kartu',
             'Kode Unik',
             'Tanggal Berlaku',
@@ -444,6 +451,7 @@ class AdminMemberManager {
                 $row['email'],
                 $row['alamat'],
                 $row['umur'],
+                $row['kegiatan'],
                 $row['jenis_kartu'],
                 $row['kode_unik'],
                 $row['tanggal_berlaku'],
@@ -507,13 +515,16 @@ class ActivityManager {
         $ip_address = $this->getClientIP();
         $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
         
+        // Gunakan timestamp UTC eksplisit untuk memastikan konsistensi
+        $current_utc = date('Y-m-d H:i:s');
+        
         $stmt = $this->db->prepare("
             INSERT INTO admin_activity_log 
-            (admin_id, admin_name, activity_type, title, details, ip_address, user_agent) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            (admin_id, admin_name, activity_type, title, details, ip_address, user_agent, created_at) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         ");
         
-        $stmt->bind_param("issssss", $admin_id, $admin_name, $activity_type, $title, $details, $ip_address, $user_agent);
+        $stmt->bind_param("isssssss", $admin_id, $admin_name, $activity_type, $title, $details, $ip_address, $user_agent, $current_utc);
         
         if (!$stmt->execute()) {
             error_log("Failed to log activity: " . $stmt->error);

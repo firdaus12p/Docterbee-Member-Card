@@ -21,53 +21,21 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <!-- Preload FontAwesome untuk memastikan icon dimuat -->
-    <link
-      rel="preload"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <!-- Fallback FontAwesome jika CDN gagal -->
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v6.4.0/css/all.css"
-      crossorigin="anonymous"
-    />
     <style>
-      /* Immediate icon fix untuk memastikan icon tampil */
-      .fas,
-      .fab {
-        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands",
-          "FontAwesome", sans-serif !important;
-        font-weight: 900 !important;
-        font-style: normal !important;
-        display: inline-block !important;
-        text-rendering: auto !important;
-        -webkit-font-smoothing: antialiased !important;
-        -moz-osx-font-smoothing: grayscale !important;
-      }
-      .fab {
-        font-weight: 400 !important;
+      /* Styling untuk emoticons sebagai pengganti FontAwesome */
+      .stat-icon,
+      .transaction-actions button,
+      .member-actions button {
+        font-size: 1.2em;
       }
 
-      /* Force loading icon dengan timeout */
-      .btn i {
-        opacity: 1 !important;
-        visibility: visible !important;
-        font-size: 14px !important;
+      /* Pastikan emoticons tampil dengan baik */
+      h2,
+      h3,
+      h4 {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
       }
     </style>
   </head>
@@ -97,12 +65,10 @@
     <main class="admin-main">
       <!-- Statistics Cards - Section untuk menampilkan statistik member -->
       <section class="stats-section">
-        <h2><i class="fas fa-chart-bar"></i> Statistik Pelanggan</h2>
+        <h2>📊 Statistik Pelanggan</h2>
         <div class="stats-grid">
           <div class="stat-card total-members">
-            <div class="stat-icon">
-              <i class="fas fa-users"></i>
-            </div>
+            <div class="stat-icon">👥</div>
             <div class="stat-info">
               <h3 id="totalMembers">0</h3>
               <p>Total Pelanggan</p>
@@ -113,9 +79,7 @@
             class="stat-card today-registrations"
             onclick="showRegistrationModal()"
           >
-            <div class="stat-icon">
-              <i class="fas fa-user-plus"></i>
-            </div>
+            <div class="stat-icon">👤</div>
             <div class="stat-info">
               <h3 id="todayRegistrations">0</h3>
               <p>Pendaftar Hari Ini</p>
@@ -126,9 +90,7 @@
             class="stat-card total-transactions"
             onclick="showTransactionModal()"
           >
-            <div class="stat-icon">
-              <i class="fas fa-shopping-cart"></i>
-            </div>
+            <div class="stat-icon">🛒</div>
             <div class="stat-info">
               <h3 id="totalTransactions">0</h3>
               <p>Total Transaksi</p>
@@ -136,9 +98,7 @@
           </div>
 
           <div class="stat-card top-customer">
-            <div class="stat-icon">
-              <i class="fas fa-crown"></i>
-            </div>
+            <div class="stat-icon">👑</div>
             <div class="stat-info">
               <h3 id="topCustomerName">-</h3>
               <p>Pelanggan Terbaik</p>
@@ -150,7 +110,7 @@
       <!-- Search and Controls -->
       <section class="controls-section">
         <div class="search-container">
-          <h3><i class="fas fa-search"></i> Cari Pelanggan</h3>
+          <h3>🔍 Cari Pelanggan</h3>
           <div class="search-box">
             <input
               type="text"
@@ -164,12 +124,11 @@
               class="btn-clear"
               onclick="clearSearch()"
             >
-              <i class="fas fa-times"></i>
+              ❌
             </button>
           </div>
           <p class="search-hint">
-            <i class="fas fa-info-circle"></i>
-            Ketik nomor WhatsApp untuk mencari pelanggan secara real-time
+            ℹ️ Ketik nomor WhatsApp untuk mencari pelanggan secara real-time
           </p>
         </div>
       </section>
@@ -177,7 +136,7 @@
       <!-- Admin Activity Log -->
       <section class="activity-section">
         <div class="section-header">
-          <h3><i class="fas fa-history"></i> Log Aktivitas Admin</h3>
+          <h3>📋 Log Aktivitas Admin</h3>
           <div class="section-actions">
             <button class="btn btn-refresh" onclick="loadActivityLog()">
               Refresh Log
@@ -193,8 +152,6 @@
             <label>Filter Aktivitas:</label>
             <select id="activityFilter" onchange="filterActivities()">
               <option value="all">Semua Aktivitas</option>
-              <option value="login">Login Admin</option>
-              <option value="member_add">Tambah Member</option>
               <option value="member_edit">Edit Member</option>
               <option value="member_delete">Hapus Member</option>
               <option value="admin_create">Buat Admin</option>
@@ -223,7 +180,7 @@
         <div class="activity-container" id="activityContainer">
           <!-- Activity log akan dimuat di sini melalui JavaScript -->
           <div class="loading-activity">
-            <i class="fas fa-spinner fa-spin"></i>
+            ⏳
             <p>Memuat log aktivitas...</p>
           </div>
         </div>
@@ -232,13 +189,13 @@
       <!-- Members List -->
       <section class="members-section">
         <div class="section-header">
-          <h3><i class="fas fa-id-card"></i> Daftar Kartu Member</h3>
+          <h3>🆔 Daftar Kartu Member</h3>
           <div class="section-actions">
             <button class="btn btn-refresh" onclick="loadMembers()">
               Refresh
             </button>
             <button class="btn btn-download-csv" onclick="downloadMembersCSV()">
-              <i class="fas fa-download"></i> Download CSV
+              📥 Download CSV
             </button>
             <button
               class="btn btn-create-admin"
@@ -258,7 +215,7 @@
         <div class="members-container" id="membersContainer">
           <!-- Members akan dimuat di sini melalui JavaScript -->
           <div class="loading-members">
-            <i class="fas fa-spinner fa-spin"></i>
+            ⏳
             <p>Memuat data pelanggan...</p>
           </div>
         </div>
@@ -269,7 +226,7 @@
     <div class="modal" id="memberModal">
       <div class="modal-content modal-large">
         <div class="modal-header">
-          <h3><i class="fas fa-user-edit"></i> Detail Member</h3>
+          <h3>✏️ Detail Member</h3>
           <button class="close-modal" onclick="closeMemberModal()">
             &times;
           </button>
@@ -316,7 +273,7 @@
             </div>
 
             <div class="transaction-section">
-              <h4><i class="fas fa-shopping-cart"></i> Manajemen Transaksi</h4>
+              <h4>🛒 Manajemen Transaksi</h4>
               <div class="transaction-controls">
                 <div class="current-transactions">
                   <label>Jumlah Pembelian Saat Ini:</label>
@@ -361,7 +318,7 @@
     <div class="modal" id="createAdminModal">
       <div class="modal-content">
         <div class="modal-header">
-          <h3><i class="fas fa-user-plus"></i> Buat Admin Baru</h3>
+          <h3>➕ Buat Admin Baru</h3>
           <button class="close-modal" onclick="closeCreateAdminModal()">
             &times;
           </button>
@@ -382,9 +339,7 @@
               />
             </div>
             <div class="form-actions">
-              <button type="submit" class="btn btn-save">
-                <i class="fas fa-save"></i> Buat Admin
-              </button>
+              <button type="submit" class="btn btn-save">💾 Buat Admin</button>
             </div>
           </form>
         </div>
@@ -395,7 +350,7 @@
     <div class="modal" id="deleteAdminModal">
       <div class="modal-content">
         <div class="modal-header">
-          <h3><i class="fas fa-user-minus"></i> Hapus Admin</h3>
+          <h3>➖ Hapus Admin</h3>
           <button class="close-modal" onclick="closeDeleteAdminModal()">
             &times;
           </button>
@@ -403,14 +358,13 @@
         <div class="modal-body">
           <div class="admin-list-container">
             <p class="warning-text">
-              <i class="fas fa-exclamation-triangle"></i>
-              Pilih admin yang ingin dihapus. Hati-hati, aksi ini tidak dapat
+              ⚠️ Pilih admin yang ingin dihapus. Hati-hati, aksi ini tidak dapat
               dibatalkan!
             </p>
             <div class="admin-list" id="adminList">
               <!-- Admin list akan dimuat di sini -->
               <div class="loading-admins">
-                <i class="fas fa-spinner fa-spin"></i>
+                ⏳
                 <p>Memuat daftar admin...</p>
               </div>
             </div>
@@ -423,7 +377,7 @@
     <div class="modal" id="registrationModal">
       <div class="modal-content modal-large">
         <div class="modal-header">
-          <h3><i class="fas fa-user-plus"></i> Data Pendaftar</h3>
+          <h3>👤 Data Pendaftar</h3>
           <button class="close-modal" onclick="closeRegistrationModal()">
             &times;
           </button>
@@ -460,7 +414,7 @@
           <div class="registration-list" id="registrationList">
             <!-- Registration list akan dimuat di sini -->
             <div class="loading-data">
-              <i class="fas fa-spinner fa-spin"></i>
+              ⏳
               <p>Memuat data pendaftar...</p>
             </div>
           </div>
@@ -472,7 +426,7 @@
     <div class="modal" id="transactionModal">
       <div class="modal-content modal-large">
         <div class="modal-header">
-          <h3><i class="fas fa-shopping-cart"></i> Data Transaksi</h3>
+          <h3>🛒 Data Transaksi</h3>
           <button class="close-modal" onclick="closeTransactionModal()">
             &times;
           </button>
@@ -509,7 +463,7 @@
           <div class="transaction-list" id="transactionList">
             <!-- Transaction list akan dimuat di sini -->
             <div class="loading-data">
-              <i class="fas fa-spinner fa-spin"></i>
+              ⏳
               <p>Memuat data transaksi...</p>
             </div>
           </div>
@@ -521,9 +475,7 @@
     <div class="modal" id="confirmModal">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 id="confirmTitle">
-            <i class="fas fa-question-circle"></i> Konfirmasi
-          </h3>
+          <h3 id="confirmTitle">❓ Konfirmasi</h3>
           <button class="close-modal" onclick="closeConfirmModal()">
             &times;
           </button>
@@ -532,10 +484,10 @@
           <p id="confirmMessage">Apakah Anda yakin?</p>
           <div class="confirm-actions">
             <button class="btn btn-cancel" onclick="closeConfirmModal()">
-              <i class="fas fa-times"></i> Batal
+              ❌ Batal
             </button>
             <button class="btn btn-confirm" id="confirmBtn">
-              <i class="fas fa-check"></i> Ya, Lanjutkan
+              ✅ Ya, Lanjutkan
             </button>
           </div>
         </div>
@@ -546,7 +498,7 @@
     <div class="modal" id="alertModal">
       <div class="modal-content">
         <div class="modal-header">
-          <h3 id="alertTitle"><i class="fas fa-info-circle"></i> Informasi</h3>
+          <h3 id="alertTitle">ℹ️ Informasi</h3>
           <button class="close-modal" onclick="closeAlert()">&times;</button>
         </div>
         <div class="modal-body">
@@ -558,72 +510,28 @@
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
       <div class="loading-spinner">
-        <i class="fas fa-spinner fa-spin"></i>
+        ⏳
         <p>Memproses...</p>
       </div>
     </div>
 
-    <!-- Script untuk memastikan FontAwesome dimuat -->
+    <!-- Script untuk memastikan emoticons ditampilkan dengan benar -->
     <script>
-      // Fungsi untuk memastikan FontAwesome dimuat dengan benar
-      function ensureFontAwesome() {
-        // Cek apakah FontAwesome sudah dimuat
-        const testElement = document.createElement("i");
-        testElement.className = "fas fa-user";
-        testElement.style.position = "absolute";
-        testElement.style.left = "-9999px";
-        document.body.appendChild(testElement);
-
-        const computedStyle = window.getComputedStyle(testElement, ":before");
-        const isLoaded =
-          computedStyle.content !== "none" && computedStyle.content !== "";
-
-        document.body.removeChild(testElement);
-
-        if (!isLoaded) {
-          // Jika belum dimuat, force reload FontAwesome
-          const link = document.createElement("link");
-          link.rel = "stylesheet";
-          link.href = "https://use.fontawesome.com/releases/v6.4.0/css/all.css";
-          link.crossOrigin = "anonymous";
-          document.head.appendChild(link);
-
-          // Tambahkan CSS fallback
-          const style = document.createElement("style");
-          style.textContent = `
-            .fas, .fab { 
-              font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", "FontAwesome" !important;
-              font-weight: 900 !important;
-              font-style: normal !important;
-            }
-            .fab { font-weight: 400 !important; }
-          `;
-          document.head.appendChild(style);
-        }
-
-        // Force refresh semua icon
-        setTimeout(() => {
-          const icons = document.querySelectorAll(".fas, .fab, .far");
-          icons.forEach((icon) => {
-            icon.style.fontFamily =
-              '"Font Awesome 6 Free", "Font Awesome 6 Brands", "FontAwesome"';
-            icon.style.fontWeight = icon.classList.contains("fab")
-              ? "400"
-              : "900";
-            icon.style.fontStyle = "normal";
-          });
-        }, 100);
+      // Fungsi sederhana untuk memastikan emoticons tampil
+      function ensureEmoticons() {
+        // Emoticons tidak memerlukan loading khusus, langsung tersedia
+        console.log("Menggunakan emoticons sebagai pengganti FontAwesome");
       }
 
       // Jalankan saat DOM ready
       if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", ensureFontAwesome);
+        document.addEventListener("DOMContentLoaded", ensureEmoticons);
       } else {
-        ensureFontAwesome();
+        ensureEmoticons();
       }
 
       // Jalankan ulang setelah semua resource dimuat
-      window.addEventListener("load", ensureFontAwesome);
+      window.addEventListener("load", ensureEmoticons);
     </script>
 
     <script src="js/admin-dashboard.js"></script>

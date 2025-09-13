@@ -101,9 +101,13 @@ class CardGenerator {
       return false;
     }
 
-    // Perbarui tanggal berlaku
+    // Perbarui tanggal berlaku - gunakan timezone user
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const now = new Date();
-    const currentMonth = now.toLocaleString("en-US", { month: "long" });
+    const currentMonth = now.toLocaleString("en-US", {
+      month: "long",
+      timeZone: userTimeZone,
+    });
     const currentYear = now.getFullYear();
     const expiryYear = currentYear + 5;
 

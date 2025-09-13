@@ -38,14 +38,14 @@ class EnvironmentDetector {
                         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                         PDO::ATTR_EMULATE_PREPARES => false,
-                        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4"
+                        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4; SET time_zone = '+00:00';"
                     ]
                 ],
                 'app' => [
                     'name' => 'DocterBee Membership Card System',
                     'version' => '1.0.0',
                     'debug' => true, // Debug aktif di development
-                    'timezone' => 'Asia/Jakarta',
+                    'timezone' => 'Asia/Makassar',
                     'upload_path' => 'uploads/',
                     'max_file_size' => 5 * 1024 * 1024,
                     'base_url' => 'http://127.0.0.1:5500'
@@ -79,14 +79,14 @@ class EnvironmentDetector {
                         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                         PDO::ATTR_EMULATE_PREPARES => false,
-                        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4"
+                        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4; SET time_zone = '+00:00';"
                     ]
                 ],
                 'app' => [
                     'name' => 'DocterBee Membership Card System',
                     'version' => '1.0.0',
                     'debug' => false, // Debug nonaktif di production
-                    'timezone' => 'Asia/Jakarta',
+                    'timezone' => 'Asia/Makassar',
                     'upload_path' => 'uploads/',
                     'max_file_size' => 5 * 1024 * 1024,
                     'base_url' => 'https://memberdocterbee.site'

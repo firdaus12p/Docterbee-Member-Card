@@ -2,6 +2,9 @@
 // API untuk Member dengan keamanan CORS yang ditingkatkan
 header('Content-Type: application/json');
 
+// Set timezone ke UTC untuk konsistensi global
+date_default_timezone_set('UTC+8');
+
 // Load config untuk mendapatkan allowed origins
 $config = require_once '../config/config.php';
 $allowed_origins = $config['security']['allowed_origins'] ?? ['*'];
@@ -44,7 +47,10 @@ class DatabaseConnection {
             }
             
             $this->connection->set_charset("utf8");
-            
+
+            // Set timezone database ke UTC+8 untuk konsistensi waktu global
+            $this->connection->query("SET time_zone = '+08:00'");
+
         } catch (Exception $e) {
             error_log("Database connection error: " . $e->getMessage());
             throw $e;
