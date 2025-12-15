@@ -1,7 +1,59 @@
-# Ignore file index.html
+# ============================================
+# PRODUCTION DEPLOYMENT - Ignore Development Files
+# ============================================
+
+# Ignore file index.html (jika tidak perlu)
 index.html
 
-# OS generated files
+# ============================================
+# DOCUMENTATION & WORKFLOW FILES (Not needed in production)
+# ============================================
+
+# Ignore all markdown files EXCEPT README.md
+*.md
+!README.md
+
+# GitHub specific files (workflows, templates, etc)
+.github/
+
+# Agent workflows and documentation
+.agent/
+
+# Deployment helper files (sudah ada di workflow)
+deploy-helper.sh
+test-db-connection.php
+DEPLOY_CHECKLIST.md
+
+# ============================================
+# COMPRESSED/ARCHIVE FILES
+# ============================================
+
+# ZIP files (backup, config, dll)
+*.zip
+*.rar
+*.7z
+*.tar
+*.tar.gz
+*.tgz
+
+# ============================================
+# DATABASE FILES (Sensitive!)
+# ============================================
+
+# Database dumps and backups
+database/*.sql
+!database/setup.sql
+# Hanya allow setup.sql, ignore backup SQL files
+
+# Database backup files
+*.sql.gz
+*.sql.zip
+*.dump
+
+# ============================================
+# OS GENERATED FILES
+# ============================================
+
 .DS_Store
 .DS_Store?
 ._*
@@ -11,66 +63,168 @@ ehthumbs.db
 Thumbs.db
 desktop.ini
 
-# IDE files
+# ============================================
+# IDE FILES
+# ============================================
+
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
+.project
+.settings/
+.classpath
 
-# Logs
+# ============================================
+# LOGS
+# ============================================
+
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+error.log
+access.log
 
-# Runtime data
+# ============================================
+# RUNTIME DATA
+# ============================================
+
 pids
 *.pid
 *.seed
 *.pid.lock
 
-# Dependency directories
+# ============================================
+# DEPENDENCY DIRECTORIES
+# ============================================
+
 node_modules/
 bower_components/
+vendor/
 
-# Optional npm cache directory
+# ============================================
+# NPM/YARN
+# ============================================
+
 .npm
-
-# Optional REPL history
 .node_repl_history
-
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
+# ============================================
+# ENVIRONMENT VARIABLES (Sensitive!)
+# ============================================
+
 .env
 .env.local
+.env.development
 .env.development.local
+.env.test
 .env.test.local
+.env.production
 .env.production.local
 
-# Backup files
+# ============================================
+# BACKUP FILES
+# ============================================
+
 *.bak
 *.backup
 *.tmp
+*.old
+*_backup
+*_old
+*.orig
 
-# Config files with sensitive data
+# ============================================
+# CONFIG FILES WITH SENSITIVE DATA
+# ============================================
+
 config/local.php
 config/development.php
 config/production.php
+config/database.php
+# Note: config/config.php dan config/environment.php PERLU di-commit
 
-# Temporary files
+# ============================================
+# TEMPORARY FILES
+# ============================================
+
 temp/
 tmp/
+temporary/
 
-# Cache files
+# ============================================
+# CACHE FILES
+# ============================================
+
 cache/
 *.cache
+.cache/
 
-# Upload directories
+# ============================================
+# UPLOAD DIRECTORIES (User generated content)
+# ============================================
+
 uploads/
 upload/
+gambar_kartu/*
+!gambar_kartu/.gitkeep
+# Ignore uploaded images but keep folder structure
+
+# ============================================
+# TEST FILES
+# ============================================
+
+test-*.php
+test-*.html
+test-*.js
+*_test.php
+phpunit.xml
+.phpunit.result.cache
+
+# ============================================
+# SECURITY & SENSITIVE FILES
+# ============================================
+
+# SSH keys
+*.pem
+*.key
+id_rsa
+id_rsa.pub
+
+# SSL certificates
+*.crt
+*.cert
+*.ca-bundle
+
+# Password files
+passwords.txt
+credentials.txt
+
+# ============================================
+# MISC
+# ============================================
+
+# Mac specific
+.AppleDouble
+.LSOverride
+Icon
+
+# Windows specific
+$RECYCLE.BIN/
+
+# Linux specific
+.directory
+
+# Thumbnails
+._*
+.thumbnails/
+
+# Files that might appear in the root
+.DocumentRevisions-V100
+.fseventsd
+.TemporaryItems
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
